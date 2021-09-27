@@ -8,3 +8,7 @@ include(GoogleTest)
 add_executable(configTest config_test.cpp)
 target_link_libraries(configTest gtest_main)
 gtest_discover_tests(configTest)
+
+add_executable(pointTest point_test.cpp)
+target_link_libraries(pointTest gtest_main)
+gtest_discover_tests(pointTest)

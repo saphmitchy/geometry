@@ -30,4 +30,5 @@ TEST(eq_test, neq_case) {
     EXPECT_FALSE(eq(-1, -1.000000002));
     EXPECT_FALSE(eq(0.0000001, 0.0));
     EXPECT_FALSE(eq(10000000.0, 10000001.0));
+    EXPECT_FALSE(eq(-100000, -100001));
 }
