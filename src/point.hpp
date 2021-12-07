@@ -110,11 +110,11 @@ class Point {
 };
 
 Point::value_type abs(const Point &p) {
-    return std::sqrt(p.x() * p.x() + p.y() * p.y());
+    return p.distance();
 }
 
 Point::value_type arg(const Point &p) {
-    return std::atan2(p.x(), p.y());
+    return std::atan2(p.y(), p.x());
 }
 
 constexpr Point operator+(const Point &lhs) {

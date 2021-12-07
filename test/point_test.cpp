@@ -180,3 +180,42 @@ TEST(pointTest, ydistTest) {
     EXPECT_DOUBLE_EQ(p.ydist(q), 6.0);
     EXPECT_DOUBLE_EQ(q.ydist(p), 6.0);
 }
+
+TEST(pointTest, polarTest1) {
+    EXPECT_TRUE(Point::polar(0).x() == 1.0);
+    EXPECT_TRUE(Point::polar(0).y() == 0.0);
+    EXPECT_TRUE(Point::polar(PI/2) == Point(0.0, 1.0));
+    EXPECT_TRUE(Point::polar(PI)   == Point(-1.0, 0.0));
+    EXPECT_DOUBLE_EQ(Point::polar(-3*PI/4).x(), -0.70710678118654724);
+    EXPECT_DOUBLE_EQ(Point::polar(-3*PI/4).y(), -0.70710678118654724);
+    EXPECT_DOUBLE_EQ(Point::polar(5*PI/6).x(), -0.866025403784438646);
+    EXPECT_DOUBLE_EQ(Point::polar(5*PI/6).y(), 0.5);
+}
+
+TEST(pointTest, polarTest2) {
+    EXPECT_TRUE(Point::polar(0, 10.0).x() == 10.0);
+    EXPECT_TRUE(Point::polar(0, 10.0).y() == 0.0);
+    EXPECT_TRUE(Point::polar(-PI/2, 10.0) == Point(0.0, -10.0));
+    EXPECT_DOUBLE_EQ(Point::polar(5*PI/6, 10).x(), -8.66025403784438646);
+    EXPECT_DOUBLE_EQ(Point::polar(5*PI/6, 10).y(), 5);
+}
+
+TEST(pointTest, absTest) {
+    EXPECT_DOUBLE_EQ(abs(Point(3.0, 4.0)), 5.0);
+    EXPECT_DOUBLE_EQ(abs(Point(-0.5, 0.5)), 0.70710678118654724);
+    EXPECT_DOUBLE_EQ(abs(Point(0, 0)), 0);
+    EXPECT_DOUBLE_EQ(abs(Point(0, -1)), 1);
+}
+
+TEST(pointTest, argTest) {
+    EXPECT_NEAR(arg(Point(-1.9, -1e-15)), -PI, 1e-13);
+    EXPECT_NEAR(arg(Point(4, -4)), -PI/4, 1e-13);
+    EXPECT_NEAR(arg(Point(-1, 1.7320508075688772935274)), PI * 2 / 3, 1e-13);
+}
+
+TEST(pointTest, minusTest) {
+    Point p(3.0, 2.0), q(4.0, -2.0);
+    EXPECT_TRUE(-p == Point(-3.0, -2.0));
+    EXPECT_TRUE(-q == Point(-4.0, 2.0));
+    EXPECT_TRUE(-(-p) == p);
+}
