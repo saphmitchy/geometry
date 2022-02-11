@@ -53,6 +53,13 @@ Point projection(const Line &l, const Point &p) {
     return l._a + b * dot(a, b) / norm(b);
 }
 
+/**
+ * @brief 直線 l に対して点 p と対称な点を返す
+ * verified with https://onlinejudge.u-aizu.ac.jp/courses/library/4/CGL/1/CGL_1_B
+ * @param l 直線
+ * @param p 点
+ * @return Point 
+ */
 Point reflection(const Line &l, const Point &p) {
     Point q = projection(l, p);
     return q * 2 - p;
