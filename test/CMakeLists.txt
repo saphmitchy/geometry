@@ -12,3 +12,7 @@ gtest_discover_tests(configTest)
 add_executable(pointTest point_test.cpp)
 target_link_libraries(pointTest gtest_main)
 gtest_discover_tests(pointTest)
+
+add_executable(lineTest line_test.cpp)
+target_link_libraries(lineTest gtest_main)
+gtest_discover_tests(lineTest)
