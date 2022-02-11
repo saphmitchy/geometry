@@ -219,3 +219,17 @@ TEST(pointTest, minusTest) {
     EXPECT_TRUE(-q == Point(-4.0, 2.0));
     EXPECT_TRUE(-(-p) == p);
 }
+
+TEST(pointTest, dotTest) {
+    Point p(3.0, 2.0), q(0.0, -5.0), r(-4.0, 6.0);
+    EXPECT_DOUBLE_EQ(dot(p, q), -10.0);
+    EXPECT_DOUBLE_EQ(dot(p, r), 0.0);
+    EXPECT_DOUBLE_EQ(dot(r, q), -30.0);
+}
+
+TEST(pointTest, corsssTest) {
+    Point p(3.0, 2.0), q(0.0, -5.0), r(-6.0, -4.0);
+    EXPECT_DOUBLE_EQ(cross(p, q), -15.0);
+    EXPECT_DOUBLE_EQ(cross(p, r), 0.0);
+    EXPECT_DOUBLE_EQ(cross(r, q), 30.0);
+}

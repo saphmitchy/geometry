@@ -27,6 +27,11 @@ constexpr bool eq(Real a, Real b) {
         return std::abs(a - b) < EPS;
 }
 
+// a <= b
+constexpr bool le(Real a, Real b) {
+    return a < b || eq(a, b);
+}
+
 } // namespace geometry
 
 } // namespace sapphre15

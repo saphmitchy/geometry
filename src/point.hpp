@@ -186,6 +186,37 @@ Real ydist(const Point &p, const Point &q) {
     return p.ydist(q);
 }
 
+// ベクトル p, q の内積を計算する
+Real dot(const Point &p, const Point &q) {
+    return p.x() * q.x() + p.y() * q.y();
+}
+
+// ベクトル p, q の外積を計算する
+Real cross(const Point &p, const Point &q) {
+    return p.x() * q.y() - p.y() * q.x();
+}
+
+enum ClockWise {
+    CLOCKWISE,
+    COUNTER_CLOCKWISE,
+    ONLINE_BACK,
+    ONLINE_FRONT,
+    ON_SEGMENT
+};
+
+/**
+ * @brief 点a, b, c がどのように並んでいるかを判定する
+ * verified with https://onlinejudge.u-aizu.ac.jp/problems/CGL_1_C
+ */
+ClockWise ccw(const Point &a, Point b, Point c) {
+    b -= a, c -= a;
+    if(sgn(cross(b, c)) > 0) return COUNTER_CLOCKWISE;
+    if(sgn(cross(b, c)) < 0) return CLOCKWISE;
+    if(sgn(dot(b, c)) < 0)   return ONLINE_BACK;
+    if(le(abs(c), abs(b))) return ON_SEGMENT;
+    return ONLINE_FRONT;
+}
+
 } // namespace geometry
 
 } // namespace sapphre15
