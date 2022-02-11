@@ -213,6 +213,13 @@ TEST(pointTest, argTest) {
     EXPECT_NEAR(arg(Point(-1, 1.7320508075688772935274)), PI * 2 / 3, 1e-13);
 }
 
+TEST(pointTest, normTest) {
+    EXPECT_DOUBLE_EQ(norm(Point(3.0, 4.0)), 25.0);
+    EXPECT_DOUBLE_EQ(norm(Point(-0.5, 0.5)), 0.5);
+    EXPECT_DOUBLE_EQ(norm(Point(0, 0)), 0);
+    EXPECT_DOUBLE_EQ(norm(Point(0, -1)), 1);
+}
+
 TEST(pointTest, minusTest) {
     Point p(3.0, 2.0), q(4.0, -2.0);
     EXPECT_TRUE(-p == Point(-3.0, -2.0));

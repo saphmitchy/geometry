@@ -117,6 +117,10 @@ Point::value_type arg(const Point &p) {
     return std::atan2(p.y(), p.x());
 }
 
+Point::value_type norm(const Point &p) {
+    return p.x() * p.x() + p.y() * p.y();
+}
+
 constexpr Point operator+(const Point &lhs) {
     return lhs;
 }
