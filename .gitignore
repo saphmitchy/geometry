@@ -1,2 +1,5 @@
 build
 .vscode
+a.out
+test.txt
+output.cpp
