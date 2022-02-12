@@ -1,6 +1,7 @@
 #ifndef GEOMETRY_LINE_HPP_
 #define GEOMETRY_LINE_HPP_
 
+#include <algorithm>
 #include <cmath>
 #include <cassert>
 
@@ -37,7 +38,15 @@ class Line {
         return val != CLOCKWISE && val != COUNTER_CLOCKWISE;
     }
 
+    // 直線の単位方向ベクトルを返す
+    Point direct() const  {
+        return _b - _a / abs(_b - _a);
+    }
+
     friend Point projection(const Line &l, const Point &p);
+    friend Real angle(const Line &a, const Line &b);
+    friend bool parallel(const Line &a, const Line &b);
+    friend bool orthogonal(const Line &a, const Line &b);
 };
 
 
@@ -63,6 +72,37 @@ Point projection(const Line &l, const Point &p) {
 Point reflection(const Line &l, const Point &p) {
     Point q = projection(l, p);
     return q * 2 - p;
+}
+
+/**
+ * @brief 2直線のなす角を返す。返り値は0とPI/2の間
+ * @return Real
+ */
+Real angle(const Line &a, const Line &b) {
+    static const Real HALF_OF_SQRT2 = 0.70710678;
+    Point u = a._a - a._b, v = b._a - b._b;
+    Real val = std::abs(dot(u, v)) / abs(u) / abs(v);
+    // arccos を用いると1付近での精度が落ちるので arcsin に切り替える
+    if(val < HALF_OF_SQRT2) return std::acos(val);
+    else return std::asin(std::abs(cross(u, v)) / abs(u) / abs(v));
+}
+
+/**
+ * @brief 2直線が平行かを返す
+ * verified with https://onlinejudge.u-aizu.ac.jp/courses/library/4/CGL/2/CGL_2_A
+ * @return true 
+ */
+bool parallel(const Line &a, const Line &b) {
+    return eq(cross(a._a - a._b, b._a - b._b), 0.0);
+}
+
+/**
+ * @brief 2直線が垂直かを返す
+ * verified with https://onlinejudge.u-aizu.ac.jp/courses/library/4/CGL/2/CGL_2_A
+ * @return true 
+ */
+bool orthogonal(const Line &a, const Line &b) {
+    return eq(dot(a._a - a._b, b._a - b._b), 0.0);
 }
 
 } // namespace geometry

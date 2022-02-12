@@ -1,3 +1,6 @@
+#include <cmath>
+
+#include <config.hpp>
 #include <line.hpp>
 
 #include <gtest/gtest.h>
@@ -46,4 +49,17 @@ TEST(lineTest, parameterizedConstructorTest) {
     EXPECT_TRUE(l3.on_line(Point(0.0, 5.0)));
     EXPECT_TRUE(l3.on_line(Point(0.0, -2.0)));
     EXPECT_FALSE(l3.on_line(Point(3.0, 4.0)));
+}
+
+TEST(lineTest, angleTest) {
+    Line l1(Point(3, 4), Point(5, 6)),
+         l2(Point(-8, 5), Point(-8, 9)),
+         l3(Point(0, 4), Point(-sqrt(3), 5)),
+         l4(Point(1.0, -9.0), Point(-1.0, -7.0));
+    EXPECT_DOUBLE_EQ(angle(l1, l2), PI/4);
+    EXPECT_DOUBLE_EQ(angle(l3, l1), PI*5/12);
+    EXPECT_DOUBLE_EQ(angle(l3, l2), PI/3);
+    EXPECT_DOUBLE_EQ(angle(l1, l4), PI/2);
+    EXPECT_DOUBLE_EQ(angle(l4, l2), PI/4);
+    EXPECT_DOUBLE_EQ(angle(l3, l4), PI/12);
 }
