@@ -39,8 +39,8 @@ class Line {
     }
 
     // 直線の単位方向ベクトルを返す
-    Point direct() const  {
-        return _b - _a / abs(_b - _a);
+    Point direction() const  {
+        return (_b - _a) / abs(_b - _a);
     }
 
     friend Point projection(const Line &l, const Point &p);

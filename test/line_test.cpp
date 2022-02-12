@@ -36,6 +36,13 @@ TEST(lineTest, onLineTest) {
     EXPECT_FALSE(l3.on_line(Point(10.0, 7.9)));
 }
 
+TEST(lineTest, directionTest) {
+    Line l1(Point(6.0, -6.0), Point(9.0, -2.0)),
+         l2(Point(0.0, 0.0),  Point(2.0,  2.0));
+    EXPECT_TRUE(l1.direction() == Point(0.6, 0.8));
+    EXPECT_TRUE(l2.direction() == Point(1/sqrt(2), 1/sqrt(2)));
+}
+
 TEST(lineTest, parameterizedConstructorTest) {
     Line l1(3.0, 4.0, -10.0);
     EXPECT_TRUE(l1.on_line(Point(2.0, 1.0)));
