@@ -43,6 +43,13 @@ TEST(lineTest, directionTest) {
     EXPECT_TRUE(l2.direction() == Point(1/sqrt(2), 1/sqrt(2)));
 }
 
+TEST(lineTest, onObjectTest) {
+    Line l(5.0, 4.0, 2.0);
+    EXPECT_TRUE(l.on_object(Point(-2.0, 2.0)));
+    EXPECT_TRUE(l.on_object(Point(1.0, -1.75)));
+    EXPECT_FALSE(l.on_object(Point(-2.0, 2.1)));
+}
+
 TEST(lineTest, parameterizedConstructorTest) {
     Line l1(3.0, 4.0, -10.0);
     EXPECT_TRUE(l1.on_line(Point(2.0, 1.0)));
@@ -56,6 +63,20 @@ TEST(lineTest, parameterizedConstructorTest) {
     EXPECT_TRUE(l3.on_line(Point(0.0, 5.0)));
     EXPECT_TRUE(l3.on_line(Point(0.0, -2.0)));
     EXPECT_FALSE(l3.on_line(Point(3.0, 4.0)));
+}
+
+TEST(segmentTest, onObjectTest) {
+    Segment sg;
+    EXPECT_TRUE(sg.on_object(Point(0.5, 0.5)));
+    EXPECT_FALSE(sg.on_object(Point(3.0, -2.1)));
+    EXPECT_FALSE(sg.on_object(Point(3.0, -2.0)));
+    EXPECT_FALSE(sg.on_object(Point(-3.0, -4.0)));
+}
+
+TEST(segmentTest, endPointsTest) {
+    Segment sg(Point(3.0 ,4.0), Point(-1.0, 0.0));
+    EXPECT_TRUE(sg.end_points() == 
+                    make_pair(Point(3.0 ,4.0), Point(-1.0, 0.0)));
 }
 
 TEST(lineTest, angleTest) {

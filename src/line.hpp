@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <cmath>
 #include <cassert>
+#include <utility>
 
 #include "config.hpp"
 #include "point.hpp"
@@ -13,6 +14,7 @@ namespace sapphre15 {
 namespace geometry {
 
 class Line {
+    protected:
     Point _a, _b;
     public:
     // x+y = 1
@@ -43,12 +45,31 @@ class Line {
         return (_b - _a) / abs(_b - _a);
     }
 
+    // 図形上に点があるか
+    virtual bool on_object(const Point &p) const {
+        return on_line(p);
+    }
+
     friend Point projection(const Line &l, const Point &p);
     friend Real angle(const Line &a, const Line &b);
     friend bool parallel(const Line &a, const Line &b);
     friend bool orthogonal(const Line &a, const Line &b);
 };
 
+class Segment : public Line {
+    public:
+    Segment() : Line() {}
+    // 点 a, b を結ぶ線分
+    Segment(const Point &a, const Point &b)
+    : Line(a, b) {}
+    bool on_object(const Point &p) const {
+        return ccw(_a, _b, p) == ON_SEGMENT;
+    }
+    // 端点を返す
+    std::pair<Point, Point> end_points() const {
+        return std::make_pair(_a, _b);
+    }
+};
 
 /**
  * @brief 直線 l に 点 p を射影した点を返す
