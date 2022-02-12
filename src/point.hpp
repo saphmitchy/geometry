@@ -90,11 +90,11 @@ class Point {
     }
 
     Real xdist(const Point &q) const {
-        return abs(_x - q._x);
+        return std::abs(_x - q._x);
     }
 
     Real ydist(const Point &q) const {
-        return abs(_y - q._y);
+        return std::abs(_y - q._y);
     }
 
     constexpr static Point polar(const Real &theta) {
