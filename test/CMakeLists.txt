@@ -20,3 +20,7 @@ gtest_discover_tests(lineTest)
 add_executable(segmentTest line_test.cpp)
 target_link_libraries(segmentTest gtest_main)
 gtest_discover_tests(segmentTest)
+
+add_executable(intersectionTest intersection_test.cpp)
+target_link_libraries(intersectionTest gtest_main)
+gtest_discover_tests(intersectionTest)

@@ -13,6 +13,7 @@ namespace sapphre15 {
 
 namespace geometry {
 
+class Segment;
 class Line {
     protected:
     Point _a, _b;
@@ -54,6 +55,8 @@ class Line {
     friend Real angle(const Line &a, const Line &b);
     friend bool parallel(const Line &a, const Line &b);
     friend bool orthogonal(const Line &a, const Line &b);
+    template<class S, class T>
+    friend bool intersection(const S &a, const T &b);
 };
 
 class Segment : public Line {

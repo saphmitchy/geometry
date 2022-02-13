@@ -201,11 +201,11 @@ Real cross(const Point &p, const Point &q) {
 }
 
 enum ClockWise {
-    CLOCKWISE,
-    COUNTER_CLOCKWISE,
-    ONLINE_BACK,
-    ONLINE_FRONT,
-    ON_SEGMENT
+    ONLINE_FRONT = -2,
+    CLOCKWISE = -1,
+    ON_SEGMENT = 0,
+    COUNTER_CLOCKWISE = +1,
+    ONLINE_BACK = +2,
 };
 
 /**
