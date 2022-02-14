@@ -200,6 +200,27 @@ Real cross(const Point &p, const Point &q) {
     return p.x() * q.y() - p.y() * q.x();
 }
 
+// 点 p と点 q を a : b に内分する点
+Point internal_div(const Point &p, const Point &q, const Real &a, const Real &b);
+
+// 点 p と点 q の中点
+Point mid_point(const Point &p, const Point &q);
+
+// 点 p と点 q を a : b に外分する点
+Point external_div(const Point &p, const Point &q, const Real &a, const Real &b);
+
+// 3点 p, q, r が一直線上にあるか
+bool colinear(const Point &p, const Point &q, const Point &r);
+
+// 3点 p, q, r を含むような最小の円は点 s を内部に含むか
+bool in_circle(const Point &p, const Point &q, const Point &r, const Point &s);
+
+// 3点 p, q, r を含むような最小の円は点 s を円周上に含むか
+bool on_circle(const Point &p, const Point &q, const Point &r, const Point &s);
+
+// 3点 p, q, r を含むような最小の円の外部に点 s は位置するか
+bool out_circle(const Point &p, const Point &q, const Point &r, const Point &s);
+
 enum ClockWise {
     ONLINE_FRONT = -2,
     CLOCKWISE = -1,
