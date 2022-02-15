@@ -1,6 +1,7 @@
 #ifndef GEOMETRY_POINT_HPP_
 #define GEOMETRY_POINT_HPP_
 
+#include <cassert>
 #include <cmath>
 #include <complex>
 #include <iostream>
@@ -201,16 +202,25 @@ Real cross(const Point &p, const Point &q) {
 }
 
 // 点 p と点 q を a : b に内分する点
-Point internal_div(const Point &p, const Point &q, const Real &a, const Real &b);
+Point internal_div(const Point &p, const Point &q, const Real &a, const Real &b) {
+    assert(0 <= a);
+    assert(0 <= b);
+    assert(0 <= a + b);
+    return (p * b + q * a) / (a + b);
+}
 
 // 点 p と点 q の中点
-Point mid_point(const Point &p, const Point &q);
+Point mid_point(const Point &p, const Point &q) {
+    return internal_div(p, q, 1.0, 1.0);
+}
 
 // 点 p と点 q を a : b に外分する点
-Point external_div(const Point &p, const Point &q, const Real &a, const Real &b);
-
-// 3点 p, q, r が一直線上にあるか
-bool colinear(const Point &p, const Point &q, const Point &r);
+Point external_div(const Point &p, const Point &q, const Real &a, const Real &b) {
+    assert(0 <= a);
+    assert(0 <= b);
+    assert(!eq(a, b));
+    return (q * a - p * b) / (a - b);
+}
 
 // 3点 p, q, r を含むような最小の円は点 s を内部に含むか
 bool in_circle(const Point &p, const Point &q, const Point &r, const Point &s);
@@ -240,6 +250,12 @@ ClockWise ccw(const Point &a, Point b, Point c) {
     if(sgn(dot(b, c)) < 0)   return ONLINE_BACK;
     if(le(abs(c), abs(b))) return ON_SEGMENT;
     return ONLINE_FRONT;
+}
+
+// 3点 p, q, r が一直線上にあるか
+bool colinear(const Point &p, const Point &q, const Point &r) {
+    ClockWise state = ccw(p, q, r);
+    return state != COUNTER_CLOCKWISE && state != CLOCKWISE;
 }
 
 } // namespace geometry

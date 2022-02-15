@@ -240,3 +240,58 @@ TEST(pointTest, corsssTest) {
     EXPECT_DOUBLE_EQ(cross(p, r), 0.0);
     EXPECT_DOUBLE_EQ(cross(r, q), 30.0);
 }
+
+TEST(pointTest, internalDivTest) {
+    Point p(3.0, 2.0), q(0.0, -5.0), r(-6.0, -8.0);
+    Point x = internal_div(p, q, 3, 5),
+          y = internal_div(q, r, 2, 1),
+          z = internal_div(r, p, 0, 1),
+          w = internal_div(r, p, 1, 0);
+    EXPECT_DOUBLE_EQ(x.x(), 1.875);
+    EXPECT_DOUBLE_EQ(y.x(), -4.00);
+    EXPECT_DOUBLE_EQ(z.x(), -6.00);
+    EXPECT_DOUBLE_EQ(w.x(), 3.000);
+    EXPECT_DOUBLE_EQ(x.y(), -0.625);
+    EXPECT_DOUBLE_EQ(y.y(), -7.00);
+    EXPECT_DOUBLE_EQ(z.y(), -8.00);
+    EXPECT_DOUBLE_EQ(w.y(), 2.000);
+}
+
+TEST(pointTest, midPointTest) {
+    Point p(3.0, 2.0), q(0.0, -5.0), r(-6.0, -8.0);
+    Point x = mid_point(p, q),
+          y = mid_point(q, r),
+          z = mid_point(r, p);
+    EXPECT_DOUBLE_EQ(x.x(), 1.50);
+    EXPECT_DOUBLE_EQ(y.x(), -3.0);
+    EXPECT_DOUBLE_EQ(z.x(), -1.5);
+    EXPECT_DOUBLE_EQ(x.y(), -1.5);
+    EXPECT_DOUBLE_EQ(y.y(), -6.5);
+    EXPECT_DOUBLE_EQ(z.y(), -3.0);
+}
+
+TEST(pointTest, externalDivTest) {
+    Point p(3.0, 2.0), q(0.0, -5.0), r(-6.0, -8.0);
+    Point x = external_div(p, q, 3, 5),
+          y = external_div(q, r, 2, 1),
+          z = external_div(r, p, 0, 1),
+          w = external_div(r, p, 1, 0);
+    EXPECT_DOUBLE_EQ(x.x(), 7.5);
+    EXPECT_DOUBLE_EQ(y.x(), -12);
+    EXPECT_DOUBLE_EQ(z.x(), -6);
+    EXPECT_DOUBLE_EQ(w.x(), 3);
+    EXPECT_DOUBLE_EQ(x.y(), 12.5);
+    EXPECT_DOUBLE_EQ(y.y(), -11);
+    EXPECT_DOUBLE_EQ(z.y(), -8);
+    EXPECT_DOUBLE_EQ(w.y(),  2);
+}
+
+TEST(pointTest, colinearTest) {
+    Point p(3.0, 2.0), q(0.0, 4.0), r(-6.0, 8.0), s(0.0, 0.0);
+    EXPECT_TRUE(colinear(p, q, r));
+    EXPECT_TRUE(colinear(q, r, p));
+    EXPECT_TRUE(colinear(r, p, q));
+    EXPECT_FALSE(colinear(p, q, s));
+    EXPECT_FALSE(colinear(p, s, r));
+    EXPECT_FALSE(colinear(s, q, r));
+}
