@@ -286,6 +286,51 @@ TEST(pointTest, externalDivTest) {
     EXPECT_DOUBLE_EQ(w.y(),  2);
 }
 
+TEST(pointTest, inCircleTest) {
+    Point a(4.0, 3.0),  b(3.0, -4.0),
+          c(0.0, -5.0), d(0.0,  0.0),
+          e(5.0, -1.0), f(1.0, -3.0),
+          g(2.0, -4.0);
+    EXPECT_TRUE(in_circle(a, b, c, f));
+    EXPECT_TRUE(in_circle(a, c, b, g));
+    EXPECT_TRUE(in_circle(d, a, b, e));
+    EXPECT_FALSE(in_circle(c, b, a, e));
+    EXPECT_FALSE(in_circle(a, d, b, f));
+    EXPECT_FALSE(in_circle(b, d, a, g));
+    EXPECT_FALSE(in_circle(g, a, f, f));
+}
+
+TEST(pointTest, onCircleTest) {
+    Point a(4.0, 3.0),  b(3.0, -4.0),
+          c(0.0, -5.0), d(-4.0, -3.0),
+          e(0.0, 0.0),  f(7.0, 0.0);
+    EXPECT_TRUE(on_circle(a, b, c, d));
+    EXPECT_TRUE(on_circle(b, a, b, c));
+    EXPECT_TRUE(on_circle(d, c, b, a));
+    EXPECT_TRUE(on_circle(a, b, e, f));
+    EXPECT_TRUE(on_circle(a, b, f, e));
+    EXPECT_TRUE(on_circle(e, a, f, b));
+    EXPECT_TRUE(on_circle(e, a, f, f));
+    EXPECT_FALSE(on_circle(e, a, b, c));
+    EXPECT_FALSE(on_circle(c, d, e, a));
+    EXPECT_FALSE(on_circle(b, c, f, a));
+    EXPECT_FALSE(on_circle(d, e, c, b));
+}
+
+TEST(pointTest, outCircleTest) {
+    Point a(4.0, 3.0),  b(3.0, -4.0),
+          c(0.0, -5.0), d(0.0,  0.0),
+          e(5.0, -1.0), f(1.0, -3.0),
+          g(2.0, -4.0);
+    EXPECT_TRUE(out_circle(c, b, a, e));
+    EXPECT_TRUE(out_circle(b, d, a, g));
+    EXPECT_FALSE(out_circle(a, d, b, f));
+    EXPECT_FALSE(out_circle(a, b, c, f));
+    EXPECT_FALSE(out_circle(a, c, b, g));
+    EXPECT_FALSE(out_circle(d, a, b, e));
+    EXPECT_FALSE(out_circle(g, a, f, a));
+}
+
 TEST(pointTest, colinearTest) {
     Point p(3.0, 2.0), q(0.0, 4.0), r(-6.0, 8.0), s(0.0, 0.0);
     EXPECT_TRUE(colinear(p, q, r));

@@ -222,14 +222,38 @@ Point external_div(const Point &p, const Point &q, const Real &a, const Real &b)
     return (q * a - p * b) / (a - b);
 }
 
-// 3点 p, q, r を含むような最小の円は点 s を内部に含むか
-bool in_circle(const Point &p, const Point &q, const Point &r, const Point &s);
+Real co_circle_internal1(Point p, Point q, Point r, const Point &s) {
+    p -= s;
+    q -= s;
+    r -= s;
+    return cross(p, q) * norm(r) + 
+           cross(q, r) * norm(p) +
+           cross(r, p) * norm(q);
+}
+
+Real co_circle_internal2(Point p, Point q, Point r, const Point &s) {
+    p -= s;
+    q -= s;
+    r -= s;
+    return cross(p, q) + 
+           cross(q, r) +
+           cross(r, p);
+}
+
+// 3点 p, q, r を含むような最小の円は点 s を内部に含むか（境界を含まない）
+bool in_circle(const Point &p, const Point &q, const Point &r, const Point &s) {
+    return sgn(co_circle_internal1(p, q, r, s)) == sgn(co_circle_internal2(p, q, r, s));
+}
 
 // 3点 p, q, r を含むような最小の円は点 s を円周上に含むか
-bool on_circle(const Point &p, const Point &q, const Point &r, const Point &s);
+bool on_circle(const Point &p, const Point &q, const Point &r, const Point &s) {
+    return eq(co_circle_internal1(p, q, r, s), 0);
+}
 
 // 3点 p, q, r を含むような最小の円の外部に点 s は位置するか
-bool out_circle(const Point &p, const Point &q, const Point &r, const Point &s);
+bool out_circle(const Point &p, const Point &q, const Point &r, const Point &s) {
+    return sgn(co_circle_internal1(p, q, r, s)) == sgn(co_circle_internal2(p, q, r, s)) * -1;
+}
 
 enum ClockWise {
     ONLINE_FRONT = -2,
