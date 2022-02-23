@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "src/line.hpp"
+#include "src/segment.hpp"
 #include "src/intersection.hpp"
 
 using namespace std;

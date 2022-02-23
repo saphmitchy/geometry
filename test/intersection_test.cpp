@@ -3,6 +3,7 @@
 #include <config.hpp>
 #include <point.hpp>
 #include <line.hpp>
+#include <segment.hpp>
 #include <intersection.hpp>
 
 #include <gtest/gtest.h>

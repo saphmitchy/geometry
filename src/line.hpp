@@ -1,7 +1,6 @@
 #ifndef GEOMETRY_LINE_HPP_
 #define GEOMETRY_LINE_HPP_
 
-#include <algorithm>
 #include <cmath>
 #include <cassert>
 #include <utility>
@@ -34,8 +33,9 @@ class Line {
             _b = Point(-(c + b)/a, 1.0);
         }
     }
-    // 点p を通り，傾き alpha の直線
-    Line(const Point &p, Real alpha);
+    // 点p を通り，偏角 theta の直線
+    Line(const Point &p, Real theta)
+    : _a(p), _b(p + Point::polar(theta)) {}
     // 直線上に点があるかを判定する
     bool on_line(const Point &p) const {
         ClockWise val = ccw(_a, _b, p);
@@ -50,11 +50,17 @@ class Line {
         return on_line(p);
     }
     // 直線の傾き
-    Real slope();
+    Real slope() const {
+        return (_a.y() - _b.y()) / (_a.x() - _b.x());
+    }
     // 直線は平行か
-    bool is_horizontal();
+    bool is_horizontal() const {
+        return eq(_a.y(), _b.y()); 
+    }
     // 直線は垂直か
-    bool is_vertical();
+    bool is_vertical() const {
+        return eq(_a.x(), _b.x()); 
+    }
 
     friend Point projection(const Line &l, const Point &p);
     friend Real angle(const Line &a, const Line &b);
@@ -64,52 +70,6 @@ class Line {
     friend bool intersection(const S &a, const T &b);
 };
 
-class Segment : public Line {
-    public:
-    Segment() : Line() {}
-    // 点 start, end を結ぶ線分
-    Segment(const Point &_start, const Point &_end)
-    : Line(_start, _end) {}
-    // 点 start を始点とする長さ length 、傾き alpha の線分
-    Segment(const Point &_start, const Real alpha, const Real length);
-
-    // 始点を返す
-    Point start();
-    // 終点を返す
-    Point end();
-    // 始点のx座標
-    double x1();
-    // 始点のy座標
-    double y1();
-    // 終点のx座標
-    double x2();
-    // 終点のy座標
-    double y2();
-    // 線分のx方向の幅
-    double dx();
-    // 線分のy方向の幅
-    double dy();
-    // 線分の長さ
-    double length();
-    bool on_object(const Point &p) const {
-        return ccw(_a, _b, p) == ON_SEGMENT;
-    }
-    // 端点を返す
-    std::pair<Point, Point> end_points() const {
-        return std::make_pair(_a, _b);
-    }
-};
-
-class Ray : public Line {
-    public:
-    // 半直線の始点
-    Point source();
-    // 始点のx座標
-    double x();
-    // 始点のy座標
-    double y();
-    bool on_object(const Point &p);
-};
 /**
  * @brief 直線 l に 点 p を射影した点を返す
  * verified with https://onlinejudge.u-aizu.ac.jp/courses/library/4/CGL/1/CGL_1_A

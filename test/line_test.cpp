@@ -50,7 +50,7 @@ TEST(lineTest, onObjectTest) {
     EXPECT_FALSE(l.on_object(Point(-2.0, 2.1)));
 }
 
-TEST(lineTest, parameterizedConstructorTest) {
+TEST(lineTest, coefficientConstructorTest) {
     Line l1(3.0, 4.0, -10.0);
     EXPECT_TRUE(l1.on_line(Point(2.0, 1.0)));
     EXPECT_TRUE(l1.on_line(Point(-2.0, 4.0)));
@@ -65,18 +65,19 @@ TEST(lineTest, parameterizedConstructorTest) {
     EXPECT_FALSE(l3.on_line(Point(3.0, 4.0)));
 }
 
-TEST(segmentTest, onObjectTest) {
-    Segment sg;
-    EXPECT_TRUE(sg.on_object(Point(0.5, 0.5)));
-    EXPECT_FALSE(sg.on_object(Point(3.0, -2.1)));
-    EXPECT_FALSE(sg.on_object(Point(3.0, -2.0)));
-    EXPECT_FALSE(sg.on_object(Point(-3.0, -4.0)));
-}
-
-TEST(segmentTest, endPointsTest) {
-    Segment sg(Point(3.0 ,4.0), Point(-1.0, 0.0));
-    EXPECT_TRUE(sg.end_points() == 
-                    make_pair(Point(3.0 ,4.0), Point(-1.0, 0.0)));
+TEST(lineTest, directionConstructorTest) {
+    Line l1(Point(1.0, 1.0), PI/4);
+    EXPECT_TRUE(l1.on_line(Point(2.0, 2.0)));
+    EXPECT_TRUE(l1.on_line(Point(-1.0, -1.0)));
+    EXPECT_FALSE(l1.on_line(Point(-1.1, -1.0)));
+    Line l2(Point(5.0, 1.0), 0.0);
+    EXPECT_TRUE(l2.on_line(Point(5.0, 1.0)));
+    EXPECT_TRUE(l2.on_line(Point(-9.0, 1.0)));
+    EXPECT_FALSE(l2.on_line(Point(-5.0, -1.0)));
+    Line l3(Point(-4.0, -1.0), -PI/2);
+    EXPECT_TRUE(l3.on_line(Point(-4.0, 0.0)));
+    EXPECT_TRUE(l3.on_line(Point(-4.0, -2.0)));
+    EXPECT_FALSE(l3.on_line(Point(3.0, -1.0)));
 }
 
 TEST(lineTest, angleTest) {
@@ -90,4 +91,33 @@ TEST(lineTest, angleTest) {
     EXPECT_DOUBLE_EQ(angle(l1, l4), PI/2);
     EXPECT_DOUBLE_EQ(angle(l4, l2), PI/4);
     EXPECT_DOUBLE_EQ(angle(l3, l4), PI/12);
+}
+
+TEST(lineTest, slopeTest) {
+    Line l1(Point(3.0, 4.0), Point(-3.0, 7.0)),
+         l2(Point(2.0, -1.0), Point(5.0, 6.0)),
+         l3(Point(5.0, 3.0), Point(5.0, 2.0)),
+         l4(Point(3.0, -1.0), Point(5.0, -1.0));
+    EXPECT_DOUBLE_EQ(l1.slope(), -0.5);
+    EXPECT_DOUBLE_EQ(l2.slope(), 7.0/3.0);
+    EXPECT_DOUBLE_EQ(l3.slope(), INFINITY);
+    EXPECT_DOUBLE_EQ(l4.slope(), 0.0);
+}
+
+TEST(lineTest, horizontalTest) {
+    Line l1(Point(3.0, -1.0), Point(5.0, -1.0)),
+         l2(Point(5.0, 3.0), Point(5.0, 2.0)),
+         l3(Point(3.0, 4.0), Point(-3.0, 7.0));
+    EXPECT_TRUE(l1.is_horizontal());
+    EXPECT_FALSE(l2.is_horizontal());
+    EXPECT_FALSE(l3.is_horizontal());
+}
+
+TEST(lineTest, verticalTest) {
+    Line l1(Point(5.0, 3.0), Point(5.0, 2.0)),
+         l2(Point(3.0, -1.0), Point(5.0, -1.0)),
+         l3(Point(3.0, 4.0), Point(-3.0, 7.0));
+    EXPECT_TRUE(l1.is_vertical());
+    EXPECT_FALSE(l2.is_vertical());
+    EXPECT_FALSE(l3.is_vertical());
 }

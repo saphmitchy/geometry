@@ -7,6 +7,7 @@
 #include "config.hpp"
 #include "point.hpp"
 #include "line.hpp"
+#include "segment.hpp"
 
 namespace sapphre15 {
 
