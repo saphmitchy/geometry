@@ -25,6 +25,10 @@ add_executable(rayTest ray_test.cpp)
 target_link_libraries(rayTest gtest_main)
 gtest_discover_tests(rayTest)
 
+add_executable(circleTest circle_test.cpp)
+target_link_libraries(circleTest gtest_main)
+gtest_discover_tests(circleTest)
+
 add_executable(intersectionTest intersection_test.cpp)
 target_link_libraries(intersectionTest gtest_main)
 gtest_discover_tests(intersectionTest)
