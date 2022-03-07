@@ -32,3 +32,7 @@ gtest_discover_tests(circleTest)
 add_executable(intersectionTest intersection_test.cpp)
 target_link_libraries(intersectionTest gtest_main)
 gtest_discover_tests(intersectionTest)
+
+add_executable(crossPointTest cross_point_test.cpp)
+target_link_libraries(crossPointTest gtest_main)
+gtest_discover_tests(crossPointTest)

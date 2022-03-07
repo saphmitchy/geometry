@@ -4,6 +4,7 @@
 #include <cmath>
 #include <cassert>
 #include <utility>
+#include <vector>
 
 #include "config.hpp"
 #include "point.hpp"
@@ -68,6 +69,8 @@ class Line {
     friend bool orthogonal(const Line &a, const Line &b);
     template<class S, class T>
     friend bool intersection(const S &a, const T &b);
+    template<class S, class T>
+    friend std::vector<Point> cross_point(const S &a, const T &b);
 };
 
 /**
