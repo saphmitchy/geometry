@@ -62,6 +62,18 @@ class Line {
     bool is_vertical() const {
         return eq(_a.x(), _b.x()); 
     }
+    // v の方向に平行移動
+    Line translation(const Point &v) const {
+        return Line(_a + v, _b + v);
+    }
+    // x軸方向に dist だけ平行移動
+    Line moveX(const Real &dist) const {
+        return translation(Point(dist, 0.0));
+    }
+    // y軸方向に dist だけ平行移動
+    Line moveY(const Real &dist) const {
+        return translation(Point(0.0, dist));
+    }
 
     friend Point projection(const Line &l, const Point &p);
     friend Real angle(const Line &a, const Line &b);

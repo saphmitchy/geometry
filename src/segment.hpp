@@ -65,6 +65,26 @@ class Segment : public Line {
     std::pair<Point, Point> end_points() const {
         return std::make_pair(_a, _b);
     }
+    // v の方向に平行移動
+    Segment translation(const Point &v) const {
+        return Segment(_a + v, _b + v);
+    }
+    // x軸方向に dist だけ平行移動
+    Segment moveX(const Real &dist) const {
+        return translation(Point(dist, 0.0));
+    }
+    // y軸方向に dist だけ平行移動
+    Segment moveY(const Real &dist) const {
+        return translation(Point(0.0, dist));
+    }
+    // 始点から終点方向から反時計回り回転させた方向に dist だけ平行移動
+    Segment moveV(const Real &dist) const {
+        return translation(geometry::rotate(direction(), PI/2) * dist);
+    }
+    // 始点を中心として theta だけ反時計回りに回転
+    Segment rotate(const Real &theta) const {
+        return Segment(_a, _a + geometry::rotate(_b - _a, theta));
+    }
 };
 
 } // namespace geometry

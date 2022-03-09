@@ -106,3 +106,83 @@ TEST(segmentTest, endPointsTest) {
     EXPECT_TRUE(sg.end_points() == 
                     make_pair(Point(3.0 ,4.0), Point(-1.0, 0.0)));
 }
+
+TEST(segmentTest, translationTest) {
+    Segment sg(Point(3.0 ,4.0), Point(-1.0, 0.0));
+    Segment sg1 = sg.translation(Point(-2.0, 5.0)),
+            sg2 = sg.translation(Point(0.0, 0.0));
+    EXPECT_DOUBLE_EQ(sg1.x1(), 1.0);
+    EXPECT_DOUBLE_EQ(sg1.x2(), -3.0);
+    EXPECT_DOUBLE_EQ(sg1.y1(), 9.0);
+    EXPECT_DOUBLE_EQ(sg1.y2(), 5.0);
+    EXPECT_DOUBLE_EQ(sg2.x1(), 3.0);
+    EXPECT_DOUBLE_EQ(sg2.x2(), -1.0);
+    EXPECT_DOUBLE_EQ(sg2.y1(), 4.0);
+    EXPECT_DOUBLE_EQ(sg2.y2(), 0.0);
+}
+
+TEST(segmentTest, moveXTest) {
+    Segment sg(Point(3.0 ,4.0), Point(-1.0, 0.0));
+    Segment sg1 = sg.moveX(4.0),
+            sg2 = sg.moveX(0.0);
+    EXPECT_DOUBLE_EQ(sg1.x1(), 7.0);
+    EXPECT_DOUBLE_EQ(sg1.x2(), 3.0);
+    EXPECT_DOUBLE_EQ(sg1.y1(), 4.0);
+    EXPECT_DOUBLE_EQ(sg1.y2(), 0.0);
+    EXPECT_DOUBLE_EQ(sg2.x1(), 3.0);
+    EXPECT_DOUBLE_EQ(sg2.x2(), -1.0);
+    EXPECT_DOUBLE_EQ(sg2.y1(), 4.0);
+    EXPECT_DOUBLE_EQ(sg2.y2(), 0.0);
+}
+
+TEST(segmentTest, moveYTest) {
+    Segment sg(Point(3.0 ,4.0), Point(-1.0, 0.0));
+    Segment sg1 = sg.moveY(-4.0),
+            sg2 = sg.moveY(0.0);
+    EXPECT_DOUBLE_EQ(sg1.x1(), 3.0);
+    EXPECT_DOUBLE_EQ(sg1.x2(), -1.0);
+    EXPECT_DOUBLE_EQ(sg1.y1(), 0.0);
+    EXPECT_DOUBLE_EQ(sg1.y2(), -4.0);
+    EXPECT_DOUBLE_EQ(sg2.x1(), 3.0);
+    EXPECT_DOUBLE_EQ(sg2.x2(), -1.0);
+    EXPECT_DOUBLE_EQ(sg2.y1(), 4.0);
+    EXPECT_DOUBLE_EQ(sg2.y2(), 0.0);
+}
+
+TEST(segmentTest, moveVTest) {
+    Segment sg(Point(2.0 ,4.0), Point(-1.0, 0.0));
+    Segment sg1 = sg.moveV(1.0),
+            sg2 = sg.moveV(-2.0),
+            sg3 = sg.moveV(0.0);
+    EXPECT_DOUBLE_EQ(sg1.x1(), 2.8);
+    EXPECT_DOUBLE_EQ(sg1.x2(), -0.2);
+    EXPECT_DOUBLE_EQ(sg1.y1(), 3.4);
+    EXPECT_DOUBLE_EQ(sg1.y2(), -0.6);
+    EXPECT_DOUBLE_EQ(sg2.x1(), 0.4);
+    EXPECT_DOUBLE_EQ(sg2.x2(), -2.6);
+    EXPECT_DOUBLE_EQ(sg2.y1(), 5.2);
+    EXPECT_DOUBLE_EQ(sg2.y2(), 1.2);
+    EXPECT_DOUBLE_EQ(sg3.x1(), 2.0);
+    EXPECT_DOUBLE_EQ(sg3.x2(), -1.0);
+    EXPECT_DOUBLE_EQ(sg3.y1(), 4.0);
+    EXPECT_DOUBLE_EQ(sg3.y2(), 0.0);
+}
+
+TEST(segmentTest, rotateTest) {
+    Segment sg(Point(3.0 ,4.0), Point(-1.0, 0.0));
+    Segment sg1 = sg.rotate(PI/2),
+            sg2 = sg.rotate(-PI*3/4),
+            sg3 = sg.rotate(0.0);
+    EXPECT_DOUBLE_EQ(sg1.x1(), 3.0);
+    EXPECT_DOUBLE_EQ(sg1.x2(), 7.0);
+    EXPECT_DOUBLE_EQ(sg1.y1(), 4.0);
+    EXPECT_DOUBLE_EQ(sg1.y2(), 0.0);
+    EXPECT_DOUBLE_EQ(sg2.x1(), 3.0);
+    EXPECT_DOUBLE_EQ(sg2.x2(), 3.0);
+    EXPECT_DOUBLE_EQ(sg2.y1(), 4.0);
+    EXPECT_DOUBLE_EQ(sg2.y2(), 4.0 + sqrt(32));
+    EXPECT_DOUBLE_EQ(sg3.x1(), 3.0);
+    EXPECT_DOUBLE_EQ(sg3.x2(), -1.0);
+    EXPECT_DOUBLE_EQ(sg3.y1(), 4.0);
+    EXPECT_DOUBLE_EQ(sg3.y2(), 0.0);
+}

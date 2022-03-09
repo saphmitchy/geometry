@@ -121,3 +121,39 @@ TEST(lineTest, verticalTest) {
     EXPECT_FALSE(l2.is_vertical());
     EXPECT_FALSE(l3.is_vertical());
 }
+
+TEST(lineTest, translationTest) {
+    Line l;
+    Line l1 = l.translation(Point(-2.0, 1.0)),
+         l2 = l.translation(Point(0.0, 0.0));
+    EXPECT_TRUE(l1.on_object(Point(3.0, -3.0)));
+    EXPECT_TRUE(l1.on_object(Point(-5.0, 5.0)));
+    EXPECT_FALSE(l1.on_object(Point(-1.0, 0.9)));
+    EXPECT_TRUE(l2.on_object(Point(3.0, -2.0)));
+    EXPECT_TRUE(l2.on_object(Point(0.0, 1.0)));
+    EXPECT_FALSE(l2.on_object(Point(0.01, 1.0)));
+}
+
+TEST(lineTest, moveXTest) {
+    Line l;
+    Line l1 = l.moveX(4.0),
+         l2 = l.moveX(0.0);
+    EXPECT_TRUE(l1.on_object(Point(6.0, -1.0)));
+    EXPECT_TRUE(l1.on_object(Point(3.0, 2.0)));
+    EXPECT_FALSE(l1.on_object(Point(6.1, -1.0)));
+    EXPECT_TRUE(l2.on_object(Point(3.0, -2.0)));
+    EXPECT_TRUE(l2.on_object(Point(0.0, 1.0)));
+    EXPECT_FALSE(l2.on_object(Point(0.01, 1.0)));
+}
+
+TEST(lineTest, moveYTest) {
+    Line l;
+    Line l1 = l.moveY(-2.0),
+         l2 = l.moveY(0.0);
+    EXPECT_TRUE(l1.on_object(Point(-2.0, 1.0)));
+    EXPECT_TRUE(l1.on_object(Point(0.0, -1.0)));
+    EXPECT_FALSE(l1.on_object(Point(6.0, -7.1)));
+    EXPECT_TRUE(l2.on_object(Point(3.0, -2.0)));
+    EXPECT_TRUE(l2.on_object(Point(0.0, 1.0)));
+    EXPECT_FALSE(l2.on_object(Point(0.01, 1.0)));
+}
