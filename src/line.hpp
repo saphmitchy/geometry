@@ -83,6 +83,8 @@ class Line {
     friend bool intersection(const S &a, const T &b);
     template<class S, class T>
     friend std::vector<Point> cross_point(const S &a, const T &b);
+    template<class S, class T>
+    friend Real distance(const S &a, const T &b);
 };
 
 /**
