@@ -39,8 +39,9 @@ Real distance(const Line &l1, const Line &l2) {
 
 template<>
 Real distance(const Segment &l, const Point &p) {
-    if(dot(p - l.start(), l.end() - l.start()) <=
-       norm(l.end() - l.start())) {
+    auto dd = dot(p - l.start(), l.end() - l.start());
+    if(0 <= dd &&
+        dd <= norm(l.end() - l.start())) {
         return distance((Line) l, p);
     } else {
         return std::min(distance(l.start(), p),
