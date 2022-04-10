@@ -12,7 +12,7 @@ using namespace std;
 
 using namespace sapphre15::geometry;
 
-TEST(distanceTest, LineandPointTest) {
+TEST(distanceTest, LineAndPointTest) {
     Line l1(0, 3.0, 6.0),
          l2(-4.0, 0.0, 4.0),
          l3(4.0, 3.0, 6.0);
@@ -30,13 +30,13 @@ TEST(distanceTest, LineandPointTest) {
     EXPECT_DOUBLE_EQ(distance(l3, p3), 0.0);
 }
 
-TEST(distanceTest, PointandLineTest) {
+TEST(distanceTest, PointAndLineTest) {
     Line l1(5.0, 12.0, -6.0);
     Point p1(0.0, 0.0);
     EXPECT_DOUBLE_EQ(distance(p1, l1), 6.0/13.0);
 }
 
-TEST(distanceTest, LineandLineTest) {
+TEST(distanceTest, LineAndLineTest) {
     Line l1(8.0, 6.0, 1.0),
          l2(-4.0, -3.0, 5.0),
          l3(2.0, 3.0, 6.0);
@@ -45,7 +45,7 @@ TEST(distanceTest, LineandLineTest) {
     EXPECT_DOUBLE_EQ(distance(l2, l3), 0.0);
 }
 
-TEST(distanceTest, SegmentandPointTest) {
+TEST(distanceTest, SegmentAndPointTest) {
     Segment sg1(Point(6.0, -4.0), Point(-3.0, 8.0)),
             sg2(Point(-6.0, 3.0), Point(-2.0, 3.0)),
             sg3(Point(6.0, 2.0), Point(6.0, 9.0));
@@ -63,9 +63,29 @@ TEST(distanceTest, SegmentandPointTest) {
     EXPECT_DOUBLE_EQ(distance(sg3, p3), 40.0);
 }
 
-TEST(distanceTest, PointandSegmentTest) {
+TEST(distanceTest, PointAndSegmentTest) {
     Segment sg1(Point(6.0, 0.0), Point(-3.0, 0.0));
     Point p1(0.0, 0.0), p2(-46.0, 0.0);
     EXPECT_DOUBLE_EQ(distance(sg1, p1), 0.0);
     EXPECT_DOUBLE_EQ(distance(sg1, p2), 43.0);
+}
+
+TEST(distanceTest, SegmentAndLineTest) {
+    Segment sg1(Point(2.0, 4.0), Point(-1.0, 0.0)),
+            sg2(Point(2.0, 4.0), Point(-2.0, 4.0)),
+            sg3(Point(-1.0, 4.0), Point(-1.0, 3.0));
+    Line l1(2.0, -1.0, 4.0);
+    EXPECT_DOUBLE_EQ(distance(sg1, l1), sqrt(0.8));
+    EXPECT_DOUBLE_EQ(distance(sg2, l1), sqrt(0.0));
+    EXPECT_DOUBLE_EQ(distance(sg3, l1), sqrt(0.2));
+}
+
+TEST(distanceTest, LineAndSegmentTest) {
+    Segment sg1(Point(2.0, 4.0), Point(-1.0, 0.0)),
+            sg2(Point(2.0, 4.0), Point(-2.0, 4.0)),
+            sg3(Point(-1.0, 4.0), Point(-1.0, 3.0));
+    Line l1(2.0, -1.0, 4.0);
+    EXPECT_DOUBLE_EQ(distance(sg1, l1), sqrt(0.8));
+    EXPECT_DOUBLE_EQ(distance(sg2, l1), sqrt(0.0));
+    EXPECT_DOUBLE_EQ(distance(sg3, l1), sqrt(0.2));
 }
