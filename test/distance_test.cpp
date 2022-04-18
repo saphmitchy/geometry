@@ -89,3 +89,22 @@ TEST(distanceTest, LineAndSegmentTest) {
     EXPECT_DOUBLE_EQ(distance(sg2, l1), sqrt(0.0));
     EXPECT_DOUBLE_EQ(distance(sg3, l1), sqrt(0.2));
 }
+
+TEST(distanceTest, SegmentAndSegmentTest) {
+    Segment sg1(Point(2.0, 3.0), Point(-2.0, 3.0)),
+            sg2(Point(-1.0, 1.0), Point(-1.0, 0.0)),
+            sg3(Point(2.0, -2.0), Point(0.0, 0.0)),
+            sg4(Point(3.0, 3.0), Point(0.0, -1.0));
+    EXPECT_DOUBLE_EQ(distance(sg1, sg2), 2.0);
+    EXPECT_DOUBLE_EQ(distance(sg2, sg1), 2.0);
+    EXPECT_DOUBLE_EQ(distance(sg1, sg3), 3.0);
+    EXPECT_DOUBLE_EQ(distance(sg3, sg1), 3.0);
+    EXPECT_DOUBLE_EQ(distance(sg1, sg4), 0.8);
+    EXPECT_DOUBLE_EQ(distance(sg4, sg1), 0.8);
+    EXPECT_DOUBLE_EQ(distance(sg2, sg3), 1.0);
+    EXPECT_DOUBLE_EQ(distance(sg3, sg2), 1.0);
+    EXPECT_DOUBLE_EQ(distance(sg2, sg4), 1.4);
+    EXPECT_DOUBLE_EQ(distance(sg4, sg2), 1.4);
+    EXPECT_DOUBLE_EQ(distance(sg3, sg4), 0.0);
+    EXPECT_DOUBLE_EQ(distance(sg4, sg3), 0.0);
+}

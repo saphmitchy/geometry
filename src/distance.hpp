@@ -69,6 +69,16 @@ Real distance(const Line &l1, const Segment &l2) {
     return distance(l2, l1);
 }
 
+// verified with https://onlinejudge.u-aizu.ac.jp/courses/library/4/CGL/2/CGL_2_D
+template<>
+Real distance(const Segment &l1, const Segment &l2) {
+    if(intersection(l1, l2)) return 0.0;
+    else return std::min({distance(l1, l2.start()),
+                          distance(l1, l2.end()  ),
+                          distance(l2, l1.start()),
+                          distance(l2, l1.end())});
+}
+
 } // namespace geometry
 
 } // namespace sapphre15
