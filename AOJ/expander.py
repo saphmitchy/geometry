@@ -18,9 +18,9 @@ def comment_remover(line : str) -> str:
        '*/' in line or \
         re.match('^//.*', line) or \
         re.match('^ \* .*', line):
-        return None
+        return "\n"
     else:
-        return  re.sub(r'(.*)//(.*)', r'\1', line)
+        return  re.sub(r'(.*?) *//(.*)', r'\1', line)
 
 expand = set()
 def dfs(inputFile : str, remove_comment : bool) -> List[str]:
@@ -42,7 +42,7 @@ def dfs(inputFile : str, remove_comment : bool) -> List[str]:
         else:
             if remove_comment:
                 removed = comment_remover(line)
-                if removed:
+                if removed != "\n":
                     ret.append(removed)
             else:
                 ret.append(line)
