@@ -15,29 +15,18 @@ namespace sapphre15 {
 
 namespace geometry {
 
-template<class T, class S>
-Real distance(const T &a, const S &b) {
-    static_assert(std::is_base_of<Line, T>::value, "T must be Drived Line");
-    static_assert(std::is_base_of<Line, S>::value, "S must be Drived Line");
-    return false;
-}
-
-template<>
 Real distance(const Line &l, const Point &p) {
     return std::abs(cross(l._a - p, l._b - p)) / abs(l._a - l._b);
 }
 
-template<>
 Real distance(const Point &p, const Line &l) {
     return distance(l, p);
 }
 
-template<>
 Real distance(const Line &l1, const Line &l2) {
     return parallel(l1, l2) ? distance(l1, l2._a) : 0;
 }
 
-template<>
 Real distance(const Segment &l, const Point &p) {
     auto dd = dot(p - l.start(), l.end() - l.start());
     if(0 <= dd &&
@@ -49,12 +38,10 @@ Real distance(const Segment &l, const Point &p) {
     }
 }
 
-template<>
 Real distance(const Point &p, const Segment &l) {
     return distance(l, p);
 }
 
-template<>
 Real distance(const Segment &l1, const Line &l2) {
     if(intersection(l1, l2)) {
         return 0;
@@ -64,13 +51,11 @@ Real distance(const Segment &l1, const Line &l2) {
     }
 }
 
-template<>
 Real distance(const Line &l1, const Segment &l2) {
     return distance(l2, l1);
 }
 
 // verified with https://onlinejudge.u-aizu.ac.jp/courses/library/4/CGL/2/CGL_2_D
-template<>
 Real distance(const Segment &l1, const Segment &l2) {
     if(intersection(l1, l2)) return 0.0;
     else return std::min({distance(l1, l2.start()),

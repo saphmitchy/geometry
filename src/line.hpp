@@ -79,12 +79,10 @@ class Line {
     friend Real angle(const Line &a, const Line &b);
     friend bool parallel(const Line &a, const Line &b);
     friend bool orthogonal(const Line &a, const Line &b);
-    template<class S, class T>
-    friend bool intersection(const S &a, const T &b);
-    template<class S, class T>
-    friend std::vector<Point> cross_point(const S &a, const T &b);
-    template<class S, class T>
-    friend Real distance(const S &a, const T &b);
+    friend bool intersection(const Segment &a, const Line &b);
+    friend std::vector<Point> cross_point(const Line &a, const Line &b);
+    friend Real distance(const Line &a, const Point &b);
+    friend Real distance(const Line &a, const Line &b);
 };
 
 /**
