@@ -14,21 +14,45 @@ namespace sapphre15 {
 
 namespace geometry {
 
+/**
+ * @brief determine if the two Line intersect
+ * @param a Line
+ * @param b Line
+ * @return bool
+ */
 bool intersection(const Line &a, const Line &b) {
     return !parallel(a, b);
 }
 
+/**
+ * @brief determine if the Line and the Segment intersect
+ * @param a Segment
+ * @param b Line
+ * @return bool
+ */
 bool intersection(const Segment &a, const Line &b) {
     std::pair<Point, Point> p = a.end_points();
     if(b.on_object(p.first) || b.on_object(p.second)) return true;
     return ccw(b._a, b._b, p.first) * ccw(b._a, b._b, p.second) < 0;
 }
 
+/**
+ * @brief determine if the Line and the Segment intersect
+ * @param a Line
+ * @param b Segment
+ * @return bool
+ */
 bool intersection(const Line &a, const Segment &b) {
     return intersection(b, a);
 }
 
+/**
+ * @brief determine if the two Segment intersect
 // verified with https://onlinejudge.u-aizu.ac.jp/courses/library/4/CGL/2/CGL_2_B
+ * @param a Segment
+ * @param b Segment
+ * @return bool
+ */
 bool intersection(const Segment &a, const Segment &b) {
     return intersection(a, (Line)b) && intersection(b, (Line)a);
 }
@@ -45,8 +69,8 @@ enum Intersection {
 };
 
 /**
- * @brief determine how the two circle intersect
- * 
+ * @brief determine how the two circle intersect.
+ * verified with https://onlinejudge.u-aizu.ac.jp/courses/library/4/CGL/7/CGL_7_A
  * @param a Circle
  * @param b Circle
  * @return Intersection
