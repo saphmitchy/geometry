@@ -8,6 +8,7 @@
 #include "point.hpp"
 #include "line.hpp"
 #include "segment.hpp"
+#include "circle.hpp"
 
 namespace sapphre15 {
 
@@ -41,6 +42,35 @@ bool intersection<Line, Segment>(const Line &a, const Segment &b) {
 template<>
 bool intersection(const Segment &a, const Segment &b) {
     return intersection<Segment, Line>(a, b) && intersection<Segment, Line>(b, a);
+}
+
+/**
+ * @brief discribe intersection
+ */
+enum Intersection {
+    DO_NOT_CROSS = 4,
+    CIRCUMSCRIBE = 3, // 外接
+    INTERSECT    = 2,
+    INSCRIBE     = 1, // 内接
+    INCLUDE      = 0, // 包含
+};
+
+/**
+ * @brief determine how the two circle intersect
+ * 
+ * @param a Circle
+ * @param b Circle
+ * @return Intersection
+ */
+Intersection intersection(const Circle &a, const Circle &b) {
+    Real d1 = distance(a.center(), b.center()),
+         d2 = a.radius() + b.radius(),
+         d3 = std::abs(a.radius() - b.radius());
+    if(eq(d1, d2)) return CIRCUMSCRIBE;
+    else if(eq(d1, d3)) return INSCRIBE;
+    else if(le(d2, d1)) return DO_NOT_CROSS;
+    else if(le(d1, d3)) return INCLUDE;
+    else return INTERSECT;
 }
 
 } // namespace geometry

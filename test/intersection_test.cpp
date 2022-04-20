@@ -70,3 +70,16 @@ TEST(intersectionTest, SegmentAndSegmentSameLine) {
     EXPECT_TRUE(intersection(sg3, sg4));
     EXPECT_FALSE(intersection(sg3, sg2));
 }
+
+TEST(interactionTest, CircleAndCircle) {
+    Circle c1(Point(1.0, 2.0), 1.0),
+           c2(Point(-2.0, -2.0), 6.0),
+           c3(Point(6.0, 4.0), 4.0),
+           c4(Point(0.0, 1.0), 2.0);
+    EXPECT_EQ(intersection(c1, c2), INSCRIBE);
+    EXPECT_EQ(intersection(c1, c3), DO_NOT_CROSS);
+    EXPECT_EQ(intersection(c1, c4), INTERSECT);
+    EXPECT_EQ(intersection(c2, c3), CIRCUMSCRIBE);
+    EXPECT_EQ(intersection(c2, c4), INCLUDE);
+    EXPECT_EQ(intersection(c3, c4), DO_NOT_CROSS);
+}
