@@ -23,7 +23,7 @@ def comment_remover(line : str) -> str:
         return  re.sub(r'(.*?) *//(.*)', r'\1', line)
 
 expand = set()
-def dfs(inputFile : str, remove_comment : bool) -> List[str]:
+def dfs(inputFile : str, remain_comment : bool) -> List[str]:
     ret = []
     with open(inputFile) as f:
         lines = f.readlines()
@@ -38,24 +38,24 @@ def dfs(inputFile : str, remove_comment : bool) -> List[str]:
             if filePath in expand:
                 continue
             expand.add(filePath)
-            ret = ret + dfs(SOURCE_PATH + filePath, remove_comment)
+            ret = ret + dfs(SOURCE_PATH + filePath, remain_comment)
         else:
-            if remove_comment:
+            if remain_comment:
+                ret.append(line)
+            else:
                 removed = comment_remover(line)
                 if removed != "\n":
                     ret.append(removed)
-            else:
-                ret.append(line)
     return ret
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='indlude expander')
     parser.add_argument('input', nargs=1, type=str)
     parser.add_argument('--output', nargs=1, default='output.cpp', type=str)
-    parser.add_argument('--remove_comment', action='store_true')
+    parser.add_argument('--remain_comment', action='store_true')
     
     args = parser.parse_args()
-    lines = dfs(args.input[0], args.remove_comment)
+    lines = dfs(args.input[0], args.remain_comment)
 
     with open(args.output, 'w') as f:
         for i in lines:
