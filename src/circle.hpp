@@ -23,6 +23,7 @@ class Circle {
     Circle(const Point &c, const Point &a)
     : _center(c), _radius(abs(c - a)) {}
     // 3点 a, b, c を通る円
+    // verified with https://onlinejudge.u-aizu.ac.jp/courses/library/4/CGL/7/CGL_7_C
     Circle(const Point &a, Point b, Point c) {
         b -= a;
         c -= a;
