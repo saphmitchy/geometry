@@ -60,6 +60,23 @@ class Circle {
     Real _radius;
 };
 
+/**
+ * @brief return incircle of the three points.
+ * verified with https://onlinejudge.u-aizu.ac.jp/courses/library/4/CGL/7/CGL_7_B
+ * @param a Point
+ * @param b Point
+ * @param c Point
+ * @return Circle 
+ */
+Circle incircle(const Point &a, const Point &b, const Point &c) {
+    Real ab = distance(a, b),
+         bc = distance(b, c),
+         ca = distance(c, a),
+         _s = std::abs(cross(a - c, b - c));
+    return Circle((a * bc + b * ca + c * ab) / (ab + bc + ca),
+                   _s / (ab + bc + ca));
+}
+
 } // namespace geometry
 
 } // namespace sapphre15

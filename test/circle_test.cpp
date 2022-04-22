@@ -67,3 +67,12 @@ TEST(circleTest, point3ConstructorTest) {
     EXPECT_TRUE(c2.center() == Point(-2.0, -1.0));
     EXPECT_DOUBLE_EQ(c2.radius(), 2.0);
 }
+
+TEST(circleTest, incircleTest) {
+    Circle c1 = incircle(Point(0.0, 0.0), Point(0.0, -3.0), Point(4.0, 0.0)),
+           c2 = incircle(Point(-4.0, -59), Point(13.0/3.0, 23.0/3.0), Point(-17.0, 45.0));
+    EXPECT_TRUE(c1.center() == Point(1.0, -1.0));
+    EXPECT_DOUBLE_EQ(c1.radius(), 1.0);
+    EXPECT_TRUE(c2.center() == Point(-4.0, 6.0));
+    EXPECT_DOUBLE_EQ(c2.radius(), sqrt(65.0));
+}
