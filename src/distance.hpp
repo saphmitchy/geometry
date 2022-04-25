@@ -15,14 +15,6 @@ namespace sapphre15 {
 
 namespace geometry {
 
-Real distance(const Line &l, const Point &p) {
-    return std::abs(cross(l._a - p, l._b - p)) / abs(l._a - l._b);
-}
-
-Real distance(const Point &p, const Line &l) {
-    return distance(l, p);
-}
-
 Real distance(const Line &l1, const Line &l2) {
     return parallel(l1, l2) ? distance(l1, l2._a) : 0;
 }

@@ -58,10 +58,10 @@ bool intersection(const Segment &a, const Segment &b) {
 }
 
 /**
- * @brief discribe intersection
+ * @brief discribe intersection of two circles
  */
-enum Intersection {
-    DO_NOT_CROSS = 4,
+enum class IntersectionCC {
+    NOT_CROSS    = 4,
     CIRCUMSCRIBE = 3, // 外接
     INTERSECT    = 2,
     INSCRIBE     = 1, // 内接
@@ -73,17 +73,49 @@ enum Intersection {
  * verified with https://onlinejudge.u-aizu.ac.jp/courses/library/4/CGL/7/CGL_7_A
  * @param a Circle
  * @param b Circle
- * @return Intersection
+ * @return IntersectionCC
  */
-Intersection intersection(const Circle &a, const Circle &b) {
+IntersectionCC intersection(const Circle &a, const Circle &b) {
     Real d1 = distance(a.center(), b.center()),
          d2 = a.radius() + b.radius(),
          d3 = std::abs(a.radius() - b.radius());
-    if(eq(d1, d2)) return CIRCUMSCRIBE;
-    else if(eq(d1, d3)) return INSCRIBE;
-    else if(le(d2, d1)) return DO_NOT_CROSS;
-    else if(le(d1, d3)) return INCLUDE;
-    else return INTERSECT;
+    if(eq(d1, d2)) return IntersectionCC::CIRCUMSCRIBE;
+    else if(eq(d1, d3)) return IntersectionCC::INSCRIBE;
+    else if(le(d2, d1)) return IntersectionCC::NOT_CROSS;
+    else if(le(d1, d3)) return IntersectionCC::INCLUDE;
+    else return IntersectionCC::INTERSECT;
+}
+
+/**
+ * @brief discribe intersection of a circle and a line
+ */
+enum IntersectionCL {
+    NOT_CROSS    = 2,
+    TOUCH        = 1,
+    CROSS        = 0,
+};
+
+/**
+ * @brief determine if circle and line intersect
+ * @param c Circle
+ * @param l Line
+ * @return IntersectionCL 
+ */
+IntersectionCL intersection(const Circle &c, const Line &l) {
+    Real _d = distance(c.center(), l);
+    if(eq(_d, c.radius())) return IntersectionCL::TOUCH;
+    else if(le(_d, c.radius())) return IntersectionCL::CROSS;
+    else return IntersectionCL::NOT_CROSS;
+}
+
+/**
+ * @brief determine if circle and line intersect
+ * @param l Line
+ * @param c Circle
+ * @return IntersectionCL 
+ */
+IntersectionCL intersection(const Line &l, const Circle &c) {
+    return intersection(c, l);
 }
 
 } // namespace geometry

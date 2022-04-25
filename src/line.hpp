@@ -140,6 +140,14 @@ bool orthogonal(const Line &a, const Line &b) {
     return eq(dot(a._a - a._b, b._a - b._b), 0.0);
 }
 
+Real distance(const Line &l, const Point &p) {
+    return std::abs(cross(l._a - p, l._b - p)) / abs(l._a - l._b);
+}
+
+Real distance(const Point &p, const Line &l) {
+    return distance(l, p);
+}
+
 } // namespace geometry
 
 } // namespace sapphre15

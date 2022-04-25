@@ -71,15 +71,35 @@ TEST(intersectionTest, SegmentAndSegmentSameLine) {
     EXPECT_FALSE(intersection(sg3, sg2));
 }
 
-TEST(interactionTest, CircleAndCircle) {
+TEST(intersectionTest, CircleAndCircle) {
     Circle c1(Point(1.0, 2.0), 1.0),
            c2(Point(-2.0, -2.0), 6.0),
            c3(Point(6.0, 4.0), 4.0),
            c4(Point(0.0, 1.0), 2.0);
-    EXPECT_EQ(intersection(c1, c2), INSCRIBE);
-    EXPECT_EQ(intersection(c1, c3), DO_NOT_CROSS);
-    EXPECT_EQ(intersection(c1, c4), INTERSECT);
-    EXPECT_EQ(intersection(c2, c3), CIRCUMSCRIBE);
-    EXPECT_EQ(intersection(c2, c4), INCLUDE);
-    EXPECT_EQ(intersection(c3, c4), DO_NOT_CROSS);
+    EXPECT_EQ(intersection(c1, c2), IntersectionCC::INSCRIBE);
+    EXPECT_EQ(intersection(c1, c3), IntersectionCC::NOT_CROSS);
+    EXPECT_EQ(intersection(c1, c4), IntersectionCC::INTERSECT);
+    EXPECT_EQ(intersection(c2, c3), IntersectionCC::CIRCUMSCRIBE);
+    EXPECT_EQ(intersection(c2, c4), IntersectionCC::INCLUDE);
+    EXPECT_EQ(intersection(c3, c4), IntersectionCC::NOT_CROSS);
+}
+
+TEST(intersectionTest, CircleAndLine) {
+    Circle c1(Point(3.0, 4.0), 2.0),
+           c2(Point(2.0, 6.0), sqrt(5.0));
+    Line l1(Point(5.0, 5.0), Point(1.0, 3.0)),
+         l2(Point(1.0, -50.0), Point(5.0, 5.0)),
+         l3(Point(0.0, 2.0), Point(0.0, -3.0));
+    EXPECT_EQ(intersection(c1, l1), IntersectionCL::CROSS);
+    EXPECT_EQ(intersection(c1, l2), IntersectionCL::CROSS);
+    EXPECT_EQ(intersection(c1, l3), IntersectionCL::NOT_CROSS);
+    EXPECT_EQ(intersection(c2, l1), IntersectionCL::TOUCH);
+    EXPECT_EQ(intersection(c2, l2), IntersectionCL::NOT_CROSS);
+    EXPECT_EQ(intersection(c2, l3), IntersectionCL::CROSS);
+}
+
+TEST(intersectionTest, LineAndCircle) {
+    Circle c1(Point(-4.0, 1.0), 5.0);
+    Line l1(Point(-3.0, 8.0), Point(3.0, 0.0));
+    EXPECT_EQ(intersection(l1, c1), IntersectionCL::TOUCH);
 }
