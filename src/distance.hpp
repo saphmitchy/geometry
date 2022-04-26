@@ -56,6 +56,29 @@ Real distance(const Segment &l1, const Segment &l2) {
                           distance(l2, l1.end())});
 }
 
+Real distance(const Circle &c, const Line &l) {
+    Real d = distance(c.center(), l);
+    return std::max(d - c.radius(), 0.0);
+/**
+ * This implementation calculates more accurately 
+ * particularly when the circle's radius and 
+ * the circle and the line's distance is close.
+ * Because it consumes much time, I don't adopt it.
+ * 
+ *  if(intersection(c, l) != IntersectionCL::NOT_CROSS) return 0.0;
+ *  else {
+ *      Point d   = rotate(l.direction(), PI/2),
+ *            nc1 = c.center() + d * c.radius(),
+ *            nc2 = c.center() - d * c.radius();
+ *      return std::min(distance(nc1, l), distance(nc2, l));
+ *  }
+ */
+}
+
+Real distance(const Line &l, const Circle &c) {
+    return distance(c, l);
+}
+
 } // namespace geometry
 
 } // namespace sapphre15

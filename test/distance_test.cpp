@@ -84,3 +84,20 @@ TEST(distanceTest, SegmentAndSegmentTest) {
     EXPECT_DOUBLE_EQ(distance(sg3, sg4), 0.0);
     EXPECT_DOUBLE_EQ(distance(sg4, sg3), 0.0);
 }
+
+TEST(distaceTest, CircleAndLineTest) {
+    Circle c1(Point(2.0, 3.0), 5.0),
+           c2(Point(-1.0, -5.0), 1.0);
+    Line l1(Point(-4.0, 0.0), Point(2.0, 8.0)),
+         l2(Point(3.0, -5.0), Point(4.0, -5.0));
+    EXPECT_DOUBLE_EQ(distance(c1, l1), 0.0);
+    EXPECT_DOUBLE_EQ(distance(c1, l2), 3.0);
+    EXPECT_DOUBLE_EQ(distance(c2, l1), 4.4);
+    EXPECT_DOUBLE_EQ(distance(c2, l2), 0.0);
+}
+
+TEST(distaceTest, LineAndCircleTest) {
+    Line l1(-10.0, 3.0, 50.0);
+    Circle c1(Point(0.0, 0.0), 1.0);
+    EXPECT_DOUBLE_EQ(distance(l1, c1), 50.0/sqrt(109) - 1.0);
+}
