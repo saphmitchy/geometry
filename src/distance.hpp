@@ -61,9 +61,9 @@ Real distance(const Circle &c, const Line &l) {
     return std::max(d - c.radius(), 0.0);
 /**
  * This implementation calculates more accurately 
- * particularly when the circle's radius and 
- * the circle and the line's distance is close.
- * Because it consumes much time, I don't adopt it.
+ * especially when the circle's radius and 
+ * distance between the center and the line are near.
+ * Because it consumes much time, I don't adopt it now.
  * 
  *  if(intersection(c, l) != IntersectionCL::NOT_CROSS) return 0.0;
  *  else {
