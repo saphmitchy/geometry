@@ -86,6 +86,50 @@ std::vector<Point> cross_point(const Line &l, const Circle &c) {
     return cross_point(c, l);
 }
 
+/**
+ * @brief calculate corss point of the two circles.
+ * @param c1 Circle
+ * @param c2 Circle
+ * @return std::vector<Point> 
+ */
+std::vector<Point> cross_point(const Circle &c1, const Circle &c2) {
+/** 
+ * To calculate cross points, we consider the line 
+ * To calculate the intersection, consider a line
+ * passing through the intersection of two circles.
+ * The intersection of that line and the circle is what we want.
+ * To simplify the calculation, translate the figure
+ * so that the midpoint of the two circles is the origin.
+ * 
+ * We assume that
+ * c1 : (x - a/2)^2 + (y - b/2)^2 = r1^2
+ * c2 : (x + a/2)^2 + (y + b/2)^2 = r2^2
+ * The equation of the line that we want is
+ * ax + by = r2^2 - r1^2
+ * If c = 0, the line is the vertical bisector of the centers.
+ * Else, the line passes through two points,
+ * (k(a + b),  k(-a + b)) and (k(a - b), k(a + b))
+ * Here, k = (r2^2 - r1^2) / (a^2 + b^2).
+ */
+    // midpoint of the center
+    Point _m = (c1.center() + c2.center()) / 2,
+          // a = _d.x(), _b = d.y()
+          _d = (c1.center() - c2.center());
+    Real r_diff = (c2.radius() * c2.radius() - 
+                   c1.radius() * c1.radius()) / 2,
+         _k      = r_diff / norm(_d),
+         _s      = (_d.x() + _d.y()) * _k,
+         _t      = (_d.x() - _d.y()) * _k;
+    if(eq(r_diff, 0.0)) {
+        // if vertical bisector is implemented, we will replace.
+        return cross_point(c1, Line(_m, _m + rotate(_d, PI/2)));
+    } else {
+        return cross_point(c1, 
+                           Line(Point(_s, -_t) + _m,
+                                Point(_t,  _s) + _m));
+    }
+}
+
 } // namespace geometry
 
 } // namespace sapphre15
