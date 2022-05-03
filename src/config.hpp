@@ -20,7 +20,7 @@ constexpr int sgn(Real a) {
     return (a < -EPS) ? -1 : (a > EPS) ? 1 : 0;
 }
 // 値の比較
-constexpr bool eq(Real a, Real b) {
+bool eq(Real a, Real b) {
     if (std::abs(a) > 1.0)
         return std::abs((a - b) / a) < EPS;
     else
@@ -28,7 +28,7 @@ constexpr bool eq(Real a, Real b) {
 }
 
 // a <= b
-constexpr bool le(Real a, Real b) {
+bool le(Real a, Real b) {
     return a < b || eq(a, b);
 }
 

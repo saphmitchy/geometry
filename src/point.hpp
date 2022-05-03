@@ -76,7 +76,7 @@ class Point {
         return *this;
     }
 
-    constexpr void rotate(const Real &theta) {
+    void rotate(const Real &theta) {
         auto tmpx = _x, tmpy = _y;
         _x = tmpx * std::cos(theta) - tmpy * std::sin(theta);
         _y = tmpx * std::sin(theta) + tmpy * std::cos(theta);
@@ -98,11 +98,11 @@ class Point {
         return std::abs(_y - q._y);
     }
 
-    constexpr static Point polar(const Real &theta) {
+    static Point polar(const Real &theta) {
         return Point(std::cos(theta), std::sin(theta));
     }
 
-    constexpr static Point polar(const Real &theta, const Real &rho) {
+    static Point polar(const Real &theta, const Real &rho) {
         return Point(rho * std::cos(theta), rho * std::sin(theta));
     }
 
@@ -154,11 +154,11 @@ constexpr Point operator/(const Point &lhs, const Point::value_type &rhs) {
     return Point(lhs) /= rhs;
 }
 
-constexpr bool operator==(const Point &lhs, const Point &rhs) {
+bool operator==(const Point &lhs, const Point &rhs) {
     return eq(lhs.x(), rhs.x()) && eq(lhs.y(), rhs.y());
 }
 
-constexpr bool operator!=(const Point &lhs, const Point &rhs) {
+bool operator!=(const Point &lhs, const Point &rhs) {
     return !(lhs == rhs);
 }
 
@@ -173,7 +173,7 @@ std::ostream &operator<<(std::ostream &os, Point &p) {
     return os << '(' << p.x() << ',' << p.y() << ')';
 }
 
-constexpr Point rotate(const Point &p, const Real &theta) {
+Point rotate(const Point &p, const Real &theta) {
     Point ret(p);
     ret.rotate(theta);
     return ret;
