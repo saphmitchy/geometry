@@ -214,3 +214,66 @@ TEST(crossPointTest, CircleAndCircleTest1) {
     EXPECT_EQ(v54.size(), 0);
     EXPECT_EQ(v45.size(), 0);
 }
+
+TEST(crossPointTest, CircleAndCircleTest2) {
+    Circle c1(Point(-9.0, 6.0), 2.0),
+           c2(Point(-5.0, 9.0), 3.0),
+           c3(Point(-6.0, 2.0), 7.0),
+           c4(Point(5.0, -1.0), 13.0);
+    auto v12 = cross_point(c1, c2),
+         v13 = cross_point(c1, c3),
+         v14 = cross_point(c1, c4),
+         v21 = cross_point(c2, c1),
+         v23 = cross_point(c2, c3),
+         v24 = cross_point(c2, c4),
+         v31 = cross_point(c3, c1),
+         v32 = cross_point(c3, c2),
+         v34 = cross_point(c3, c4),
+         v41 = cross_point(c4, c1),
+         v42 = cross_point(c4, c2),
+         v43 = cross_point(c4, c3);
+    EXPECT_EQ(v12.size(), 1);
+    EXPECT_DOUBLE_EQ(v12[0].x(), -7.4);
+    EXPECT_DOUBLE_EQ(v12[0].y(), 7.2);
+    EXPECT_EQ(v21.size(), 1);
+    EXPECT_DOUBLE_EQ(v21[0].x(), -7.4);
+    EXPECT_DOUBLE_EQ(v21[0].y(), 7.2);
+    EXPECT_EQ(v13.size(), 1);
+    EXPECT_DOUBLE_EQ(v13[0].x(), -10.2);
+    EXPECT_DOUBLE_EQ(v13[0].y(), 7.6);
+    EXPECT_EQ(v31.size(), 1);
+    EXPECT_DOUBLE_EQ(v31[0].x(), -10.2);
+    EXPECT_DOUBLE_EQ(v31[0].y(), 7.6);
+    EXPECT_EQ(v14.size(), 0);
+    EXPECT_EQ(v41.size(), 0);
+    EXPECT_EQ(v23.size(), 2);
+    EXPECT_DOUBLE_EQ(v23[0].x(), -7.9861739379323619658634925);
+    EXPECT_DOUBLE_EQ(v23[0].y(), 8.7123105625617665026538816);
+    EXPECT_DOUBLE_EQ(v23[1].x(), -2.2138260620676377676829816);
+    EXPECT_DOUBLE_EQ(v23[1].y(), 7.8876894374382340302531702);
+    EXPECT_EQ(v32.size(), 2);
+    EXPECT_DOUBLE_EQ(v32[0].x(), -7.9861739379323619658634925);
+    EXPECT_DOUBLE_EQ(v32[0].y(), 8.7123105625617665026538816);
+    EXPECT_DOUBLE_EQ(v32[1].x(), -2.2138260620676377676829816);
+    EXPECT_DOUBLE_EQ(v32[1].y(), 7.8876894374382340302531702);
+    EXPECT_EQ(v24.size(), 2);
+    EXPECT_DOUBLE_EQ(v24[0].x(), -5.8708286933869704427024772);
+    EXPECT_DOUBLE_EQ(v24[0].y(), 6.1291713066130295572975228);
+    EXPECT_DOUBLE_EQ(v24[1].x(), -2.1291713066130291132083130);
+    EXPECT_DOUBLE_EQ(v24[1].y(), 9.8708286933869704427024772);
+    EXPECT_EQ(v42.size(), 2);
+    EXPECT_DOUBLE_EQ(v42[0].x(), -5.8708286933869704427024772);
+    EXPECT_DOUBLE_EQ(v42[0].y(), 6.1291713066130295572975228);
+    EXPECT_DOUBLE_EQ(v42[1].x(), -2.1291713066130291132083130);
+    EXPECT_DOUBLE_EQ(v42[1].y(), 9.8708286933869704427024772);
+    EXPECT_EQ(v43.size(), 2);
+    EXPECT_DOUBLE_EQ(v43[0].x(), -7.4151271142487047427493962);
+    EXPECT_DOUBLE_EQ(v43[0].y(), -4.8554660855785822803909468);
+    EXPECT_DOUBLE_EQ(v43[1].x(), -3.7387190395974494450115344);
+    EXPECT_DOUBLE_EQ(v43[1].y(), 8.6246968548093523310171804);
+    EXPECT_EQ(v34.size(), 2);
+    EXPECT_DOUBLE_EQ(v34[0].x(), -7.4151271142487047427493962);
+    EXPECT_DOUBLE_EQ(v34[0].y(), -4.8554660855785822803909468);
+    EXPECT_DOUBLE_EQ(v34[1].x(), -3.7387190395974494450115344);
+    EXPECT_DOUBLE_EQ(v34[1].y(), 8.6246968548093523310171804);
+}
