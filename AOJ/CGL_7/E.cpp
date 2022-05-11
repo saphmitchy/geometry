@@ -22,7 +22,7 @@ int main() {
             if(le(ans[1].y() ,ans[0].y())) {
                 swap(ans[0], ans[1]);
             }
-        } else if(le(ans[1].y(), ans[0].y())) {
+        } else if(le(ans[1].x(), ans[0].x())) {
             swap(ans[0], ans[1]);
         }
     }
