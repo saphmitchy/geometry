@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 
-import argparse
+import argparse, re, os
 from typing import List
-import re
 
 include_file = re.compile('(?<=#include\s\")(src/|)[a-z_]+?(|.hpp)(?=\")')
 include_guard = re.compile('GEOMETRY_')
-SOURCE_PATH = '../src/'
+DIR_PATH = os.path.dirname(__file__)
+SOURCE_PATH = DIR_PATH + '/../src/'
 
 '''
 コメントアウトを削除する。
@@ -51,7 +51,7 @@ def dfs(inputFile : str, remain_comment : bool) -> List[str]:
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='indlude expander')
     parser.add_argument('input', nargs=1, type=str)
-    parser.add_argument('--output', nargs=1, default='output.cpp', type=str)
+    parser.add_argument('--output', nargs=1, default= DIR_PATH + '/output.cpp', type=str)
     parser.add_argument('--remain_comment', action='store_true')
     
     args = parser.parse_args()

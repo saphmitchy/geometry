@@ -105,11 +105,11 @@ std::vector<Point> cross_point(const Circle &c1, const Circle &c2) {
  * c1 : (x - a/2)^2 + (y - b/2)^2 = r1^2
  * c2 : (x + a/2)^2 + (y + b/2)^2 = r2^2
  * The equation of the line that we want is
- * ax + by = r2^2 - r1^2
+ * ax + by = (r2^2 - r1^2) / 2
  * If c = 0, the line is the vertical bisector of the centers.
  * Else, the line passes through two points,
  * (k(a + b),  k(-a + b)) and (k(a - b), k(a + b))
- * Here, k = (r2^2 - r1^2) / (a^2 + b^2).
+ * Here, k = (r2^2 - r1^2) / (a^2 + b^2) / 2.
  */
     // midpoint of the center
     Point _m = (c1.center() + c2.center()) / 2,
