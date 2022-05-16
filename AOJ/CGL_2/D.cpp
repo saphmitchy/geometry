@@ -1,8 +1,8 @@
 #include <iostream>
 #include <iomanip>
 
-#include "src/segment.hpp"
-#include "src/distance.hpp"
+#include "segment.hpp"
+#include "distance.hpp"
 
 using namespace std;
 using namespace sapphre15::geometry;

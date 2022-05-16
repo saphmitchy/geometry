@@ -18,3 +18,6 @@ enable_testing()
 
 add_subdirectory(src)
 add_subdirectory(test)
+add_subdirectory(AOJ/CGL_1)
+add_subdirectory(AOJ/CGL_2)
+add_subdirectory(AOJ/CGL_7)

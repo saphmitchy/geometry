@@ -1,8 +1,8 @@
 #include <iostream>
 #include <iomanip>
 
-#include "src/point.hpp"
-#include "src/circle.hpp"
+#include "point.hpp"
+#include "circle.hpp"
 
 using namespace std;
 using namespace sapphre15::geometry;

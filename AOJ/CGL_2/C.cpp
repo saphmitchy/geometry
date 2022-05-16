@@ -1,8 +1,8 @@
 #include <iostream>
 #include <iomanip>
 
-#include "src/segment.hpp"
-#include "src/cross_point.hpp"
+#include "segment.hpp"
+#include "cross_point.hpp"
 
 using namespace std;
 using namespace sapphre15::geometry;

@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "src/point.hpp"
+#include "point.hpp"
 
 using namespace std;
 using namespace sapphre15::geometry;

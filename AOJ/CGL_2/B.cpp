@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "src/segment.hpp"
-#include "src/intersection.hpp"
+#include "segment.hpp"
+#include "intersection.hpp"
 
 using namespace std;
 using namespace sapphre15::geometry;

@@ -2,9 +2,9 @@
 #include <iomanip>
 #include <vector>
 
-#include "src/point.hpp"
-#include "src/circle.hpp"
-#include "src/cross_point.hpp"
+#include "point.hpp"
+#include "circle.hpp"
+#include "cross_point.hpp"
 
 using namespace std;
 using namespace sapphre15::geometry;

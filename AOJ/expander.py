@@ -3,10 +3,10 @@
 import argparse, re, os
 from typing import List
 
-include_file = re.compile('(?<=#include\s\")(src/|)[a-z_]+?(|.hpp)(?=\")')
+include_file = re.compile('(?<=#include\s\")[a-z_]+?(|.hpp)(?=\")')
 include_guard = re.compile('GEOMETRY_')
 DIR_PATH = os.path.dirname(__file__)
-SOURCE_PATH = DIR_PATH + '/../src/'
+SOURCE_PATH = os.path.join(DIR_PATH, '../src/')
 
 '''
 コメントアウトを削除する。
@@ -38,7 +38,7 @@ def dfs(inputFile : str, remain_comment : bool) -> List[str]:
             if filePath in expand:
                 continue
             expand.add(filePath)
-            ret = ret + dfs(SOURCE_PATH + filePath, remain_comment)
+            ret = ret + dfs(os.path.join(SOURCE_PATH, filePath), remain_comment)
         else:
             if remain_comment:
                 ret.append(line)
@@ -51,9 +51,9 @@ def dfs(inputFile : str, remain_comment : bool) -> List[str]:
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='indlude expander')
     parser.add_argument('input', nargs=1, type=str)
-    parser.add_argument('--output', nargs=1, default= DIR_PATH + '/output.cpp', type=str)
+    parser.add_argument('--output', nargs=1, default= os.path.join(DIR_PATH, 'output.cpp'), type=str)
     parser.add_argument('--remain_comment', action='store_true')
-    
+
     args = parser.parse_args()
     lines = dfs(args.input[0], args.remain_comment)
 

@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "src/point.hpp"
-#include "src/line.hpp"
+#include "point.hpp"
+#include "line.hpp"
 
 using namespace std;
 using namespace sapphre15::geometry;
