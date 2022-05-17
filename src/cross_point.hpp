@@ -18,7 +18,8 @@ namespace sapphre15 {
 
 namespace geometry {
 
-std::vector<Point> cross_point(const Line &a, const Line &b) {
+std::vector<Point> cross_point(const Line &a,
+                               const Line &b) {
     assert(!parallel(a, b));
     Point da = a._b - a._a,
           db = b._b - b._a;

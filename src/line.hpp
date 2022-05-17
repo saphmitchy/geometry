@@ -13,18 +13,32 @@ namespace sapphre15 {
 
 namespace geometry {
 
-class Segment;
-class Line {
+Point projection(const internal::LineBase &l, const Point &p);
+Real angle(const internal::LineBase &a, const internal::LineBase &b);
+bool parallel(const internal::LineBase &a, const internal::LineBase &b);
+bool orthogonal(const internal::LineBase &a, const internal::LineBase &b);
+
+namespace internal {
+
+// parent namespace
+namespace PARENT = ::sapphre15::geometry;
+
+/**
+ * @brief Base class of line like classes
+ */
+class LineBase {
     protected:
     Point _a, _b;
     public:
+    virtual ~LineBase() {}
+
     // x+y = 1
-    Line() : _a(1, 0), _b(0, 1) {}
+    LineBase() : _a(1, 0), _b(0, 1) {}
     // 点a, bを結ぶ直線
-    Line(const Point &a, const Point &b)
+    LineBase(const Point &a, const Point &b)
     : _a(a), _b(b) {}
     // ax + by + c = 0
-    Line(const Real &a, const Real &b, const Real &c) {
+    LineBase(const Real &a, const Real &b, const Real &c) {
         assert(!eq(a, 0.0) || !eq(b, 0.0));
         if(eq(a, 0.0)) {
             _a = Point(0.0, -c/b);
@@ -35,7 +49,7 @@ class Line {
         }
     }
     // 点p を通り，偏角 theta の直線
-    Line(const Point &p, Real theta)
+    LineBase(const Point &p, const Real theta)
     : _a(p), _b(p + Point::polar(theta)) {}
     // 直線上に点があるかを判定する
     bool on_line(const Point &p) const {
@@ -62,25 +76,82 @@ class Line {
     bool is_vertical() const {
         return eq(_a.x(), _b.x()); 
     }
-    // v の方向に平行移動
+
+    friend Point PARENT::projection(const LineBase &l, const Point &p);
+    friend Real PARENT::angle(const LineBase &a, const LineBase &b);
+    friend bool PARENT::parallel(const LineBase &a, const LineBase &b);
+    friend bool PARENT::orthogonal(const LineBase &a, const LineBase &b);
+};
+
+} // namespace internal
+
+/**
+ * @brief Line class
+ */
+class Line : public internal::LineBase {
+    public:
+    /**
+     * @brief Construct a new Line object. x + y = 1.
+     */
+    Line() : internal::LineBase() {}
+    /**
+     * @brief Construct a new Line object that
+     * pass through point a and b.
+     * @param a Point
+     * @param b Point
+     */
+    Line(const Point &a, const Point &b) : internal::LineBase(a, b) {}
+    /**
+     * @brief Construct a new Line object. ax + by + c = 0
+     * @param a Real
+     * @param b Real
+     * @param c Real
+     */
+    Line(const Real &a, const Real &b, const Real &c)
+    : internal::LineBase(a, b, c) {}
+    // line that pass through point p and 
+    /**
+     * @brief Construct a new Line object that
+     * pass through point p and
+     * argument angle is theta.
+     * @param p Point
+     * @param theta argument angle in radian
+     */
+    Line(const Point &p, const Real theta)
+    : internal::LineBase(p, theta) {}
+    /**
+     * @brief down cast from LineBase to Line
+     * @param l LineBase
+     */
+    Line(const internal::LineBase &l)
+    : internal::LineBase(l) {}
+    /**
+     * @brief return line that is translated by v
+     * @param v vector of traslation
+     * @return Line 
+     */
     Line translation(const Point &v) const {
         return Line(_a + v, _b + v);
     }
-    // x軸方向に dist だけ平行移動
+    /**
+     * @brief return line that is translated by dist to x-axis direction.
+     * @param dist distance to translate
+     * @return Line 
+     */
     Line moveX(const Real &dist) const {
         return translation(Point(dist, 0.0));
     }
-    // y軸方向に dist だけ平行移動
+    /**
+     * @brief return line that is translated by dist to y-axis direction.
+     * @param dist distance to translate
+     * @return Line 
+     */
     Line moveY(const Real &dist) const {
         return translation(Point(0.0, dist));
     }
 
-    friend Point projection(const Line &l, const Point &p);
-    friend Real angle(const Line &a, const Line &b);
-    friend bool parallel(const Line &a, const Line &b);
-    friend bool orthogonal(const Line &a, const Line &b);
-    friend bool intersection(const Segment &a, const Line &b);
     friend std::vector<Point> cross_point(const Line &a, const Line &b);
+    friend bool intersection(const Segment &a, const Line &b);
     friend Real distance(const Line &a, const Point &b);
     friend Real distance(const Line &a, const Line &b);
 };
@@ -92,7 +163,7 @@ class Line {
  * @param p 点
  * @return Point 
  */
-Point projection(const Line &l, const Point &p) {
+Point projection(const internal::LineBase &l, const Point &p) {
     const Point a = p - l._a, b = l._b - l._a;
     return l._a + b * dot(a, b) / norm(b);
 }
@@ -104,7 +175,7 @@ Point projection(const Line &l, const Point &p) {
  * @param p 点
  * @return Point 
  */
-Point reflection(const Line &l, const Point &p) {
+Point reflection(const internal::LineBase &l, const Point &p) {
     Point q = projection(l, p);
     return q * 2 - p;
 }
@@ -113,7 +184,7 @@ Point reflection(const Line &l, const Point &p) {
  * @brief 2直線のなす角を返す。返り値は0とPI/2の間
  * @return Real
  */
-Real angle(const Line &a, const Line &b) {
+Real angle(const internal::LineBase &a, const internal::LineBase &b) {
     static const Real HALF_OF_SQRT2 = 0.70710678;
     Point u = a._a - a._b, v = b._a - b._b;
     Real val = std::abs(dot(u, v)) / abs(u) / abs(v);
@@ -127,7 +198,7 @@ Real angle(const Line &a, const Line &b) {
  * verified with https://onlinejudge.u-aizu.ac.jp/courses/library/4/CGL/2/CGL_2_A
  * @return true 
  */
-bool parallel(const Line &a, const Line &b) {
+bool parallel(const internal::LineBase &a, const internal::LineBase &b) {
     return eq(cross(a._a - a._b, b._a - b._b), 0.0);
 }
 
@@ -136,7 +207,7 @@ bool parallel(const Line &a, const Line &b) {
  * verified with https://onlinejudge.u-aizu.ac.jp/courses/library/4/CGL/2/CGL_2_A
  * @return true 
  */
-bool orthogonal(const Line &a, const Line &b) {
+bool orthogonal(const internal::LineBase &a, const internal::LineBase &b) {
     return eq(dot(a._a - a._b, b._a - b._b), 0.0);
 }
 

@@ -32,6 +32,14 @@ bool le(Real a, Real b) {
     return a < b || eq(a, b);
 }
 
+class Point;
+namespace internal { class LineBase; };
+class Line;
+class Ray;
+class Segment;
+class Circle;
+class Polygon;
+
 } // namespace geometry
 
 } // namespace sapphre15

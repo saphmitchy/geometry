@@ -54,7 +54,8 @@ bool intersection(const Line &a, const Segment &b) {
  * @return bool
  */
 bool intersection(const Segment &a, const Segment &b) {
-    return intersection(a, (Line)b) && intersection(b, (Line)a);
+    return intersection(a, (internal::LineBase)b) && 
+           intersection(b, (internal::LineBase)a);
 }
 
 /**

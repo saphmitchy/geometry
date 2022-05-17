@@ -12,15 +12,15 @@ namespace sapphre15 {
 
 namespace geometry {
 
-class Segment : public Line {
+class Segment : public internal::LineBase {
     public:
-    Segment() : Line() {}
+    Segment() : internal::LineBase() {}
     // 点 start, end を結ぶ線分
     Segment(const Point &_start, const Point &_end)
-    : Line(_start, _end) {}
+    : internal::LineBase(_start, _end) {}
     // 点 start を始点とする長さ length 、傾き theta の線分
     Segment(const Point &_start, const Real _theta, const Real _length)
-    : Line(_start, _start + Point::polar(_theta, _length)) {}
+    : internal::LineBase(_start, _start + Point::polar(_theta, _length)) {}
 
     // 始点を返す
     Point start() const {

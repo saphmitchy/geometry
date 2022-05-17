@@ -9,15 +9,15 @@ namespace sapphre15 {
 
 namespace geometry {
 
-class Ray : public Line {
+class Ray : public internal::LineBase {
     public:
-    Ray() : Line() {}
+    Ray() : internal::LineBase() {}
     // 点 start を始点とし end を結ぶ半直線
     Ray(const Point &_start, const Point &_to)
-    : Line(_start, _to) {}
+    : internal::LineBase(_start, _to) {}
     // 点 start を始点とする傾き theta の半直線
     Ray(const Point &_start, const Real theta)
-    : Line(_start, _start + Point::polar(theta)) {}
+    : internal::LineBase(_start, _start + Point::polar(theta)) {}
     // 半直線の始点
     Point source() const {
         return _a;
