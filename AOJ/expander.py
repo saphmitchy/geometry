@@ -17,7 +17,7 @@ def comment_remover(line : str) -> str:
     if '/*' in line or \
        '*/' in line or \
         re.match('^//.*', line) or \
-        re.match('^ \* .*', line):
+        re.match('^ *\* .*', line):
         return "\n"
     else:
         return  re.sub(r'(.*?) *//(.*)', r'\1', line)
