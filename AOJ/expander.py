@@ -18,6 +18,7 @@ def comment_remover(line : str) -> str:
     Reomve comments.  If all of the line is removed, returns \\n.
     Else returns lines that comments removed.
     '''
+    # check if the whole line is comment
     if '/*' in line or \
        '*/' in line or \
         re.match('^//.*', line) or \
@@ -67,21 +68,21 @@ def dfs(inputFile : str, remain_comment : bool) -> List[str]:
     return ret
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='indlude expander')
-    #define input file argumant
+    parser = argparse.ArgumentParser(description = 'indlude expander')
+    # define input file argumant
     parser.add_argument('input',
-                        nargs=1,
-                        type=str)
-    #define output file argumant
+                        nargs   = 1,
+                        type    = str)
+    # define output file argumant
     parser.add_argument('--output',
-                        nargs=1,
-                        default= os.path.join(DIR_PATH, 'output.cpp'),
-                        type=str)
-    #define comment argumant
+                        nargs   = 1,
+                        default = os.path.join(DIR_PATH, 'output.cpp'),
+                        type    = str)
+    # define comment argumant
     parser.add_argument('--remain_comment',
-                        action='store_true')
+                        action  ='store_true')
 
-    # recieve arguemnt
+    # recieve arguemnts
     args = parser.parse_args()
     # start parse
     lines = dfs(args.input[0], args.remain_comment)
