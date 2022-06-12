@@ -40,3 +40,7 @@ gtest_discover_tests(crossPointTest)
 add_executable(distanceTest distance_test.cpp)
 target_link_libraries(distanceTest gtest_main)
 gtest_discover_tests(distanceTest)
+
+add_executable(tangentTest tangent_test.cpp)
+target_link_libraries(tangentTest gtest_main)
+gtest_discover_tests(tangentTest)
