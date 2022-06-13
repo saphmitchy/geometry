@@ -16,23 +16,45 @@ namespace geometry {
 
 class Polygon {
     public:
-    // Container に含まれている点を順に並べた多角形
+    /**
+     * @brief Create a Polygon object whose vertex is
+     * the points contained point_list.
+     * The order is modified if the order is clockwise.
+     * @tparam Container required foeward-interator.
+     * @param points_list container object stored vertex.
+     */
     template<class Container>
     Polygon(Container &&points_list)
     : _num(points_list.size()) {
         points.reset(new Point[_num]);
         std::copy(begin(points_list),
                   end(points_list),
-                  begin(points));
+                  begin(_points));
+        // the order is checked.
+        if(sgn(area()) < 0) {
+            reverse(_points, _points + _num);
+        }
+    }
+    
+    /**
+     * @brief calculate the area of the polygon.
+     * @return Real 
+     */
+    Real area() const {
+        Real val = 0.0;
+        for(size_t i = 0; i < _num - 1; i++) {
+            val += cross(_points[i], _points[i+1]);
+        }
+        return val / 2.0;
     }
 
     // 点pは多角形の内部にあるか
     bool inside(const Point &p) {
         Real sum = 0;
-        for(int i = 1; i < _num; i++) {
+        for(size_t i = 1; i < _num; i++) {
             sum += cross(_points[i-1] - p, _points[i] - p);
         }
-        sum += cross(_points[_num - 1] - p, _points[0] - p);
+        sum += cross(_points[_num-1] - p, _points[0] - p);
         return eq(sum, 0.0);
     }
     // 点pは多角形の境界上にあるか
@@ -72,7 +94,10 @@ class Polygon {
     }
 
     private:
+    // number of vertex
     const size_t _num;
+    // list of vertexes
+    // the order is counter-clockwise
     std::unique_ptr<Point[]> _points;
 };
 
