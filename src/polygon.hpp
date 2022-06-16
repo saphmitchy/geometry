@@ -1,9 +1,11 @@
-#ifndef GEOMETRY_CIRCLE_HPP_
-#define GEOMETRY_CIRCLE_HPP_
+#ifndef GEOMETRY_POLYGON_HPP_
+#define GEOMETRY_POLYGON_HPP_
 
 #include <algorithm>
+#include <initializer_list>
 #include <iterator>
 #include <memory>
+#include <vector>
 
 #include "config.hpp"
 #include "point.hpp"
@@ -14,28 +16,31 @@ namespace sapphre15 {
 
 namespace geometry {
 
+class PolygonIterator;
+
 class Polygon {
     public:
     /**
      * @brief Create a Polygon object whose vertex is
      * the points contained point_list.
      * The order is modified if the order is clockwise.
-     * @tparam Container required foeward-interator.
-     * @param points_list container object stored vertex.
+     * @param points_list 
      */
-    template<class Container>
-    Polygon(Container &&points_list)
+    Polygon(const std::vector<Point> &points_list)
     : _num(points_list.size()) {
-        points.reset(new Point[_num]);
-        std::copy(begin(points_list),
-                  end(points_list),
-                  begin(_points));
+        _points.reset(new Point[_num]);
+        std::copy(std::begin(points_list),
+                  std::end(points_list),
+                  _points.get());
         // the order is checked.
         if(sgn(area()) < 0) {
-            reverse(_points, _points + _num);
+            std::reverse(_points.get(), _points.get() + _num);
         }
     }
-    
+
+    Polygon(std::initializer_list<Point> init)
+    : Polygon(std::vector<Point>(std::begin(init), std::end(init))) {}
+
     /**
      * @brief calculate the area of the polygon.
      * @return Real 
@@ -90,19 +95,152 @@ class Polygon {
                 return false;
             }
         }
-        return init == ccw(_points[_num-2], _points[_num-1], _points[0]);
+        return init == ccw(_points[_num-2],
+                           _points[_num-1],
+                           _points[0]);
     }
+    
+    Point& operator[](size_t _n) {
+        assert(_n < _num);
+        return _points[_n];
+    }
+
+    const Point& operator[](size_t _n) const {
+        assert(_n < _num);
+        return _points[_n];
+    }
+
+    size_t size() const noexcept {
+        return _num;
+    }
+    
+    PolygonIterator begin() const;
+
+    friend PolygonIterator;
 
     private:
     // number of vertex
     const size_t _num;
     // list of vertexes
     // the order is counter-clockwise
-    std::unique_ptr<Point[]> _points;
+    std::shared_ptr<Point[]> _points;
 };
+
+class PolygonIterator {
+    public:
+    using size_type         = std::size_t;
+    using diff_type         = std::ptrdiff_t;
+    using value_type        = Point;
+    using refernce          = Point&;
+    using pointer           = std::shared_ptr<Point[]>;
+    using iterator_category = std::random_access_iterator_tag;
+
+    refernce operator*() {
+        return _ptr[_idx];
+    }
+
+    const refernce operator*() const {
+        return _ptr[_idx];
+    }
+
+    PolygonIterator& operator++() {
+        ++_idx;
+        if(_idx == _length) _idx = 0;
+        assert(check_idx());
+        return *this;
+    }
+
+    PolygonIterator operator++(int) {
+        auto ret = *this;
+        ++*this;
+        return ret;
+    }
+
+    PolygonIterator& operator--() {
+        if(_idx == 0) _idx = _length;
+        --_idx;
+        assert(check_idx());
+        return *this;
+    }
+
+    PolygonIterator operator--(int) {
+        auto ret = *this;
+        --*this;
+        return ret;
+    }
+
+    PolygonIterator& operator+=(diff_type _n) {
+        if(_n < 0) _n = _n % _length + _length;
+        _idx += _n;
+        if(_length <= _idx) _idx -= _length;
+        assert(check_idx());
+        return *this;
+    }
+
+    PolygonIterator  operator+(diff_type _n) const {
+        auto ret = *this;
+        ret += _n;
+        return ret;
+    }
+
+    PolygonIterator& operator-=(diff_type _n) {
+        return operator+=(-_n);
+    }
+
+    PolygonIterator  operator-(diff_type _n) const {
+        auto ret = *this;
+        ret -= _n;
+        return ret;
+    }
+
+    size_type operator- (const PolygonIterator &i) const {
+        auto ret = _idx - i._idx;
+        return ret < 0 ? ret + _length : ret;
+    }
+
+    bool operator==(const PolygonIterator &i) const noexcept {
+        return _ptr == i._ptr;
+    }
+
+    bool operator!=(const PolygonIterator &i) const noexcept {
+        return !(*this == i);
+    }
+
+    friend Polygon;
+
+    private:
+    size_type _idx;
+    const size_type _length;
+    pointer _ptr;
+
+    PolygonIterator(const Polygon *_parent, size_type _n = 0)
+    : _idx(_n),
+      _length(_parent->_num),
+      _ptr(_parent->_points.get() + _n) {
+        assert(check_idx());
+    }
+
+    bool check_idx() const noexcept {
+        return _idx <= _length;
+    }
+};
+
+PolygonIterator operator+(PolygonIterator::diff_type _n,
+                          const PolygonIterator& _p) {
+    return _p + _n;
+}
+
+PolygonIterator operator-(PolygonIterator::diff_type _n,
+                          const PolygonIterator& _p) {
+    return _p - _n;
+}
+
+PolygonIterator Polygon::begin() const {
+        return PolygonIterator(this);
+}
 
 } // namespace geometry
 
 } // namespace sapphre15
 
-#endif // GEOMETRY_CIRCLE_HPP_
+#endif // GEOMETRY_POLYGON_HPP_
