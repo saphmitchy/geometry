@@ -116,6 +116,8 @@ class Polygon {
     
     PolygonIterator begin() const;
 
+    PolygonIterator end() const;
+
     friend PolygonIterator;
 
     private:
@@ -233,6 +235,10 @@ PolygonIterator operator+(PolygonIterator::diff_type _n,
 PolygonIterator operator-(PolygonIterator::diff_type _n,
                           const PolygonIterator& _p) {
     return _p - _n;
+}
+
+PolygonIterator Polygon::begin() const {
+        return PolygonIterator(this);
 }
 
 PolygonIterator Polygon::begin() const {
