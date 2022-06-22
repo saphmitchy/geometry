@@ -46,21 +46,32 @@ class Polygon {
      * @return Real 
      */
     Real area() const {
-        Real val = 0.0;
+        Real val = cross(_points[_num-1], _points[0]);
         for(size_t i = 0; i < _num - 1; i++) {
             val += cross(_points[i], _points[i+1]);
         }
         return val / 2.0;
     }
 
-    // 点pは多角形の内部にあるか
+    /**
+     * @brief check if the point is inside the polygon.
+     * @param p Point
+     */
     bool inside(const Point &p) {
-        Real sum = 0;
-        for(size_t i = 1; i < _num; i++) {
-            sum += cross(_points[i-1] - p, _points[i] - p);
+        bool ret = false;
+        Point _a, _b = _points[_num-1];
+        for(size_t i = 0; i < _num; i++) {
+            _a = std::move(_b);
+            _b = _points[i];
+            if(_a.y() < _b.y()) std::swap(_a, _b);
+            if(!le(_a.y(), p.y()) &&
+                le(_b.y(), p.y())  &&
+               ccw(_a, p, _b) == COUNTER_CLOCKWISE) {
+                ret = ret ^ true;
+            }
+            _b = _points[i];
         }
-        sum += cross(_points[_num-1] - p, _points[0] - p);
-        return eq(sum, 0.0);
+        return ret;
     }
     // 点pは多角形の境界上にあるか
     bool on_object(const Point &p) {
@@ -98,11 +109,6 @@ class Polygon {
         return init == ccw(_points[_num-2],
                            _points[_num-1],
                            _points[0]);
-    }
-    
-    Point& operator[](size_t _n) {
-        assert(_n < _num);
-        return _points[_n];
     }
 
     const Point& operator[](size_t _n) const {
@@ -208,6 +214,10 @@ class PolygonIterator {
         return !(*this == i);
     }
 
+    Point* operator->() const noexcept {
+        return &_ptr[_idx];
+    }
+
     friend Polygon;
 
     private:
@@ -218,7 +228,7 @@ class PolygonIterator {
     PolygonIterator(const Polygon *_parent, size_type _n = 0)
     : _idx(_n),
       _length(_parent->_num),
-      _ptr(_parent->_points.get() + _n) {
+      _ptr(_parent->_points) {
         assert(check_idx());
     }
 
@@ -241,7 +251,7 @@ PolygonIterator Polygon::begin() const {
         return PolygonIterator(this);
 }
 
-PolygonIterator Polygon::begin() const {
+PolygonIterator Polygon::end() const {
         return PolygonIterator(this);
 }
 
