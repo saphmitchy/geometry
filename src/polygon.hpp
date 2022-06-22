@@ -88,8 +88,8 @@ class Polygon {
     }
     // 多角形は単純か
     bool is_simple() {
-        for(int i = 1; i < _num; i++) {
-            for(int j = 1; j < i; j++) {
+        for(size_t i = 1; i < _num; i++) {
+            for(size_t j = 1; j < i; j++) {
                 if(intersection(Segment(_points[i-1], _points[i]),
                                 Segment(_points[j-1], _points[j]))) {
                     return false;
@@ -101,7 +101,7 @@ class Polygon {
     // 多角形は凸か
     bool is_convex() {
         ClockWise init = ccw(_points[_num-1], _points[0], _points[1]);
-        for(int i = 2; i < _num; i++) {
+        for(size_t i = 2; i < _num; i++) {
             if(init != ccw(_points[i-2], _points[i-1], _points[i])) {
                 return false;
             }
