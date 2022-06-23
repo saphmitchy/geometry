@@ -43,6 +43,7 @@ class Polygon {
 
     /**
      * @brief calculate the area of the polygon.
+     * veified with https://onlinejudge.u-aizu.ac.jp/courses/library/4/CGL/3/CGL_3_A
      * @return Real 
      */
     Real area() const {
@@ -54,7 +55,9 @@ class Polygon {
     }
 
     /**
-     * @brief check if the point is inside the polygon.
+     * @brief Check if the point is inside the polygon.
+     * If the points is on the polygon, the result is unspecified.
+     * veified with https://onlinejudge.u-aizu.ac.jp/courses/library/4/CGL/3/CGL_3_C
      * @param p Point
      */
     bool inside(const Point &p) {
@@ -73,7 +76,10 @@ class Polygon {
         }
         return ret;
     }
-    // 点pは多角形の境界上にあるか
+    /**
+     * @brief Check if the point is on edges of the polygon.
+     * @param p
+     */
     bool on_object(const Point &p) {
         for(size_t i = 1; i < _num; i++) {
             if(ccw(_points[i-1], _points[i], p) == ON_SEGMENT) {
