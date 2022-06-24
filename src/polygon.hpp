@@ -94,13 +94,15 @@ class Polygon {
     }
     // 多角形は単純か
     bool is_simple() {
-        for(size_t i = 1; i < _num; i++) {
-            for(size_t j = 1; j < i; j++) {
-                if(intersection(Segment(_points[i-1], _points[i]),
-                                Segment(_points[j-1], _points[j]))) {
+        Point ip = _points[_num - 1];
+        for(size_t i = 0; i < _num; i++) {
+            for(size_t j = i+1; j < (i == 0 ? _num - 2 : _num - 1); j++) {
+                if(intersection(Segment(_points[i], ip),
+                                Segment(_points[j], _points[j+1]))) {
                     return false;
                 }
             }
+            ip = _points[i];
         }
         return true;
     }
