@@ -132,3 +132,84 @@ TEST(polygonTest, issimpleTest) {
     Polygon pl12(buff);
     EXPECT_TRUE(pl12.is_simple());
 }
+
+TEST(polygonTest, isConvexTest) {
+    auto rotate = [](std::vector<Point> v) {
+        v.emplace_back(v[0]);
+        std::copy(begin(v) + 1, end(v), begin(v));
+        v.resize(v.size() - 1);
+        return v;
+    };
+    std::vector<Point> buff = {Point(3.0, -2.0),
+                               Point(4.0, 1.0),
+                               Point(1.0, 2.0),
+                               Point(-1.0, 0.5),
+                               Point(-3.0, -1.0),
+                               Point(1.0, -4.0)};
+    Polygon pl1(buff);
+    EXPECT_TRUE(pl1.is_convex());
+    buff = rotate(buff);
+    Polygon pl2(buff);
+    EXPECT_TRUE(pl2.is_convex());
+    buff = rotate(buff);
+    Polygon pl3(buff);
+    EXPECT_TRUE(pl3.is_convex());
+    buff = rotate(buff);
+    Polygon pl4(buff);
+    EXPECT_TRUE(pl4.is_convex());
+    buff = rotate(buff);
+    Polygon pl5(buff);
+    EXPECT_TRUE(pl5.is_convex());
+    buff = rotate(buff);
+    Polygon pl6(buff);
+    EXPECT_TRUE(pl6.is_convex());
+    buff = rotate(buff);
+    buff[0] = Point(2.0, -2.0);
+    Polygon pl7(buff);
+    EXPECT_FALSE(pl7.is_convex());
+    buff = rotate(buff);
+    Polygon pl8(buff);
+    EXPECT_FALSE(pl8.is_convex());
+    buff = rotate(buff);
+    Polygon pl9(buff);
+    EXPECT_FALSE(pl9.is_convex());
+    buff = rotate(buff);
+    Polygon pl10(buff);
+    EXPECT_FALSE(pl10.is_convex());
+    buff = rotate(buff);
+    Polygon pl11(buff);
+    EXPECT_FALSE(pl11.is_convex());
+    buff = rotate(buff);
+    Polygon pl12(buff);
+    EXPECT_FALSE(pl12.is_convex());
+    buff = {Point(8.0, -2.0),
+            Point(0.0, 2.0),
+            Point(2.0, 1.0),
+            Point(-3.0, 3.5)};
+    Polygon pl13(buff);
+    EXPECT_TRUE(pl13.is_convex());
+    buff = rotate(buff);
+    Polygon pl14(buff);
+    EXPECT_TRUE(pl14.is_convex());
+    buff = rotate(buff);
+    Polygon pl15(buff);
+    EXPECT_TRUE(pl15.is_convex());
+    buff = rotate(buff);
+    Polygon pl16(buff);
+    EXPECT_TRUE(pl16.is_convex());
+    buff = rotate(buff);
+    buff[0] = Point(4.0, 2.0);
+    buff[3] = Point(2.0, 3.0);
+    Polygon pl17(buff);
+    EXPECT_FALSE(pl17.is_convex());
+    buff = rotate(buff);
+    Polygon pl18(buff);
+    EXPECT_FALSE(pl18.is_convex());
+    buff = rotate(buff);
+    Polygon pl19(buff);
+    EXPECT_FALSE(pl19.is_convex());
+    buff = rotate(buff);
+    Polygon pl20(buff);
+    EXPECT_FALSE(pl20.is_convex());
+    buff = rotate(buff);
+}

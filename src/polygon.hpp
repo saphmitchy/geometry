@@ -28,6 +28,7 @@ class Polygon {
      */
     Polygon(const std::vector<Point> &points_list)
     : _num(points_list.size()) {
+        assert(3 <= _num);
         _points.reset(new Point[_num]);
         std::copy(std::begin(points_list),
                   std::end(points_list),
@@ -88,11 +89,17 @@ class Polygon {
         }
         return ccw(_points[0], _points[_num-1], p) == ON_SEGMENT;
     }
-    // 点pは多角形の外部にあるか
+    /**
+     * @brief Check if the point is outside the polygon.
+     * @param p Point
+     */
     bool outside(const Point &p) {
         return !inside(p);
     }
-    // 多角形は単純か
+    /**
+     * @brief Check if the point is simple.
+     * @param p Point
+     */
     bool is_simple() {
         Point ip = _points[_num - 1];
         for(size_t i = 0; i < _num; i++) {
@@ -106,17 +113,20 @@ class Polygon {
         }
         return true;
     }
-    // 多角形は凸か
+    /**
+     * @brief Check if the polygon is convex.
+     * veryfied with https://onlinejudge.u-aizu.ac.jp/courses/library/4/CGL/3/CGL_3_B
+     */
     bool is_convex() {
-        ClockWise init = ccw(_points[_num-1], _points[0], _points[1]);
+        if(ccw(_points[_num-1], _points[0], _points[1])
+                == CLOCKWISE) return false;
+        if(ccw(_points[_num-2], _points[_num-1], _points[0])
+                == CLOCKWISE) return false;
         for(size_t i = 2; i < _num; i++) {
-            if(init != ccw(_points[i-2], _points[i-1], _points[i])) {
-                return false;
-            }
+            if(ccw(_points[i-2], _points[i-1], _points[i])
+                    == CLOCKWISE) return false;
         }
-        return init == ccw(_points[_num-2],
-                           _points[_num-1],
-                           _points[0]);
+        return true;
     }
 
     const Point& operator[](size_t _n) const {
