@@ -43,7 +43,7 @@ jobs:
       
     - name: Collect Coverages
       working-directory: ${{github.workspace}}/build/test/CMakeFiles
-      run: lcov -d  -c -o  converage.info
+      run: lcov -d . -c -o converage.info
 
     - name: Filter Coverages
       working-directory: ${{github.workspace}}/build/test/CMakeFiles
