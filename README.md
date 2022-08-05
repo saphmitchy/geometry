@@ -9,7 +9,9 @@
   - [expander.py](AOJ/expander.py) -- ライブラリを展開するスクリプト
 
 ## テストについて
-[Google test](https://github.com/google/googletest) を利用しています。
+[CMake](https://cmake.org) と [Google test](https://github.com/google/googletest)  を利用しています。
+また、テストカバレッジのために [LCOV](https://github.com/linux-test-project/lcov) を利用しています。
+テストには CMake と LCOV が必要なので、適宜インストールしてください。
 ```
 ./run_test
 ```
