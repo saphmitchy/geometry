@@ -1,6 +1,6 @@
-#include <circle.hpp>
-
 #include <gtest/gtest.h>
+
+#include <circle.hpp>
 
 using namespace sapphre15::geometry;
 
@@ -12,8 +12,7 @@ TEST(circleTest, onObjectTest) {
 }
 
 TEST(circleTest, paramConstructorTest) {
-    Circle c1(Point(0.5, -3.0), 4.0),
-           c2(Point(0.0, 0.0), 1.0);
+    Circle c1(Point(0.5, -3.0), 4.0), c2(Point(0.0, 0.0), 1.0);
     EXPECT_TRUE(c1.on_object(Point(4.5, -3.0)));
     EXPECT_TRUE(c1.on_object(Point(0.5, 1.0)));
     EXPECT_FALSE(c1.on_object(Point(2.9, -0.8)));
@@ -60,8 +59,9 @@ TEST(circleTest, outsideTest) {
 }
 
 TEST(circleTest, point3ConstructorTest) {
-    Circle c1(Point(4855.0, -29.0), Point(-2406.0, 4218.0), Point(-1095.0, -4729.0)),
-           c2(Point(-2.0, 1.0), Point(-2.0, -3.0), Point(0.0, -1.0));
+    Circle c1(
+        Point(4855.0, -29.0), Point(-2406.0, 4218.0), Point(-1095.0, -4729.0)),
+        c2(Point(-2.0, 1.0), Point(-2.0, -3.0), Point(0.0, -1.0));
     EXPECT_TRUE(c1.center() == Point(0.0, 1.0));
     EXPECT_DOUBLE_EQ(c1.radius(), sqrt(23571925.0));
     EXPECT_TRUE(c2.center() == Point(-2.0, -1.0));
@@ -70,7 +70,9 @@ TEST(circleTest, point3ConstructorTest) {
 
 TEST(circleTest, incircleTest) {
     Circle c1 = incircle(Point(0.0, 0.0), Point(0.0, -3.0), Point(4.0, 0.0)),
-           c2 = incircle(Point(-4.0, -59), Point(13.0/3.0, 23.0/3.0), Point(-17.0, 45.0));
+           c2 = incircle(Point(-4.0, -59),
+                         Point(13.0 / 3.0, 23.0 / 3.0),
+                         Point(-17.0, 45.0));
     EXPECT_TRUE(c1.center() == Point(1.0, -1.0));
     EXPECT_DOUBLE_EQ(c1.radius(), 1.0);
     EXPECT_TRUE(c2.center() == Point(-4.0, 6.0));

@@ -1,21 +1,18 @@
-#include <vector>
-#include <cmath>
+#include <gtest/gtest.h>
 
+#include <cmath>
 #include <config.hpp>
+#include <distance.hpp>
 #include <line.hpp>
 #include <segment.hpp>
-#include <distance.hpp>
-
-#include <gtest/gtest.h>
+#include <vector>
 
 using namespace std;
 
 using namespace sapphre15::geometry;
 
 TEST(distanceTest, LineAndLineTest) {
-    Line l1(8.0, 6.0, 1.0),
-         l2(-4.0, -3.0, 5.0),
-         l3(2.0, 3.0, 6.0);
+    Line l1(8.0, 6.0, 1.0), l2(-4.0, -3.0, 5.0), l3(2.0, 3.0, 6.0);
     EXPECT_DOUBLE_EQ(distance(l1, l2), 1.1);
     EXPECT_DOUBLE_EQ(distance(l3, l1), 0.0);
     EXPECT_DOUBLE_EQ(distance(l2, l3), 0.0);
@@ -23,11 +20,9 @@ TEST(distanceTest, LineAndLineTest) {
 
 TEST(distanceTest, SegmentAndPointTest) {
     Segment sg1(Point(6.0, -4.0), Point(-3.0, 8.0)),
-            sg2(Point(-6.0, 3.0), Point(-2.0, 3.0)),
-            sg3(Point(6.0, 2.0), Point(6.0, 9.0));
-    Point p1(0.0, 0.0),
-          p2(-6.0, 12.0),
-          p3(46.0, 5.0);
+        sg2(Point(-6.0, 3.0), Point(-2.0, 3.0)),
+        sg3(Point(6.0, 2.0), Point(6.0, 9.0));
+    Point p1(0.0, 0.0), p2(-6.0, 12.0), p3(46.0, 5.0);
     EXPECT_DOUBLE_EQ(distance(sg1, p1), 2.4);
     EXPECT_DOUBLE_EQ(distance(sg1, p2), 5.0);
     EXPECT_DOUBLE_EQ(distance(sg1, p3), 41.0);
@@ -41,15 +36,15 @@ TEST(distanceTest, SegmentAndPointTest) {
 
 TEST(distanceTest, PointAndSegmentTest) {
     Segment sg1(Point(6.0, 0.0), Point(-3.0, 0.0));
-    Point p1(0.0, 0.0), p2(-46.0, 0.0);
+    Point   p1(0.0, 0.0), p2(-46.0, 0.0);
     EXPECT_DOUBLE_EQ(distance(sg1, p1), 0.0);
     EXPECT_DOUBLE_EQ(distance(sg1, p2), 43.0);
 }
 
 TEST(distanceTest, SegmentAndLineTest) {
     Segment sg1(Point(2.0, 4.0), Point(-1.0, 0.0)),
-            sg2(Point(2.0, 4.0), Point(-2.0, 4.0)),
-            sg3(Point(-1.0, 4.0), Point(-1.0, 3.0));
+        sg2(Point(2.0, 4.0), Point(-2.0, 4.0)),
+        sg3(Point(-1.0, 4.0), Point(-1.0, 3.0));
     Line l1(2.0, -1.0, 4.0);
     EXPECT_DOUBLE_EQ(distance(sg1, l1), sqrt(0.8));
     EXPECT_DOUBLE_EQ(distance(sg2, l1), sqrt(0.0));
@@ -58,8 +53,8 @@ TEST(distanceTest, SegmentAndLineTest) {
 
 TEST(distanceTest, LineAndSegmentTest) {
     Segment sg1(Point(2.0, 4.0), Point(-1.0, 0.0)),
-            sg2(Point(2.0, 4.0), Point(-2.0, 4.0)),
-            sg3(Point(-1.0, 4.0), Point(-1.0, 3.0));
+        sg2(Point(2.0, 4.0), Point(-2.0, 4.0)),
+        sg3(Point(-1.0, 4.0), Point(-1.0, 3.0));
     Line l1(2.0, -1.0, 4.0);
     EXPECT_DOUBLE_EQ(distance(sg1, l1), sqrt(0.8));
     EXPECT_DOUBLE_EQ(distance(sg2, l1), sqrt(0.0));
@@ -68,9 +63,9 @@ TEST(distanceTest, LineAndSegmentTest) {
 
 TEST(distanceTest, SegmentAndSegmentTest) {
     Segment sg1(Point(2.0, 3.0), Point(-2.0, 3.0)),
-            sg2(Point(-1.0, 1.0), Point(-1.0, 0.0)),
-            sg3(Point(2.0, -2.0), Point(0.0, 0.0)),
-            sg4(Point(3.0, 3.0), Point(0.0, -1.0));
+        sg2(Point(-1.0, 1.0), Point(-1.0, 0.0)),
+        sg3(Point(2.0, -2.0), Point(0.0, 0.0)),
+        sg4(Point(3.0, 3.0), Point(0.0, -1.0));
     EXPECT_DOUBLE_EQ(distance(sg1, sg2), 2.0);
     EXPECT_DOUBLE_EQ(distance(sg2, sg1), 2.0);
     EXPECT_DOUBLE_EQ(distance(sg1, sg3), 3.0);
@@ -86,10 +81,9 @@ TEST(distanceTest, SegmentAndSegmentTest) {
 }
 
 TEST(distaceTest, CircleAndLineTest) {
-    Circle c1(Point(2.0, 3.0), 5.0),
-           c2(Point(-1.0, -5.0), 1.0);
-    Line l1(Point(-4.0, 0.0), Point(2.0, 8.0)),
-         l2(Point(3.0, -5.0), Point(4.0, -5.0));
+    Circle c1(Point(2.0, 3.0), 5.0), c2(Point(-1.0, -5.0), 1.0);
+    Line   l1(Point(-4.0, 0.0), Point(2.0, 8.0)),
+        l2(Point(3.0, -5.0), Point(4.0, -5.0));
     EXPECT_DOUBLE_EQ(distance(c1, l1), 0.0);
     EXPECT_DOUBLE_EQ(distance(c1, l2), 3.0);
     EXPECT_DOUBLE_EQ(distance(c2, l1), 4.4);
@@ -97,7 +91,7 @@ TEST(distaceTest, CircleAndLineTest) {
 }
 
 TEST(distaceTest, LineAndCircleTest) {
-    Line l1(-10.0, 3.0, 50.0);
+    Line   l1(-10.0, 3.0, 50.0);
     Circle c1(Point(0.0, 0.0), 1.0);
-    EXPECT_DOUBLE_EQ(distance(l1, c1), 50.0/sqrt(109) - 1.0);
+    EXPECT_DOUBLE_EQ(distance(l1, c1), 50.0 / sqrt(109) - 1.0);
 }

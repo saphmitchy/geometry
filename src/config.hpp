@@ -33,15 +33,17 @@ bool le(Real a, Real b) {
 }
 
 class Point;
-namespace internal { class LineBase; };
+namespace internal {
+class LineBase;
+}  // namespace internal
 class Line;
 class Ray;
 class Segment;
 class Circle;
 class Polygon;
 
-} // namespace geometry
+}  // namespace geometry
 
-} // namespace sapphre15
+}  // namespace sapphre15
 
-#endif // GEOMETRY_CONFIG_HPP_
+#endif  // GEOMETRY_CONFIG_HPP_

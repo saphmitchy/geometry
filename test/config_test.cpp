@@ -1,6 +1,6 @@
-#include <config.hpp>
-
 #include <gtest/gtest.h>
+
+#include <config.hpp>
 
 using namespace sapphre15::geometry;
 

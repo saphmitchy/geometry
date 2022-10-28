@@ -1,9 +1,8 @@
-#include <cmath>
+#include <gtest/gtest.h>
 
+#include <cmath>
 #include <config.hpp>
 #include <line.hpp>
-
-#include <gtest/gtest.h>
 
 using namespace std;
 
@@ -38,9 +37,9 @@ TEST(lineTest, onLineTest) {
 
 TEST(lineTest, directionTest) {
     Line l1(Point(6.0, -6.0), Point(9.0, -2.0)),
-         l2(Point(0.0, 0.0),  Point(2.0,  2.0));
+        l2(Point(0.0, 0.0), Point(2.0, 2.0));
     EXPECT_TRUE(l1.direction() == Point(0.6, 0.8));
-    EXPECT_TRUE(l2.direction() == Point(1/sqrt(2), 1/sqrt(2)));
+    EXPECT_TRUE(l2.direction() == Point(1 / sqrt(2), 1 / sqrt(2)));
 }
 
 TEST(lineTest, onObjectTest) {
@@ -66,7 +65,7 @@ TEST(lineTest, coefficientConstructorTest) {
 }
 
 TEST(lineTest, directionConstructorTest) {
-    Line l1(Point(1.0, 1.0), PI/4);
+    Line l1(Point(1.0, 1.0), PI / 4);
     EXPECT_TRUE(l1.on_line(Point(2.0, 2.0)));
     EXPECT_TRUE(l1.on_line(Point(-1.0, -1.0)));
     EXPECT_FALSE(l1.on_line(Point(-1.1, -1.0)));
@@ -74,40 +73,39 @@ TEST(lineTest, directionConstructorTest) {
     EXPECT_TRUE(l2.on_line(Point(5.0, 1.0)));
     EXPECT_TRUE(l2.on_line(Point(-9.0, 1.0)));
     EXPECT_FALSE(l2.on_line(Point(-5.0, -1.0)));
-    Line l3(Point(-4.0, -1.0), -PI/2);
+    Line l3(Point(-4.0, -1.0), -PI / 2);
     EXPECT_TRUE(l3.on_line(Point(-4.0, 0.0)));
     EXPECT_TRUE(l3.on_line(Point(-4.0, -2.0)));
     EXPECT_FALSE(l3.on_line(Point(3.0, -1.0)));
 }
 
 TEST(lineTest, angleTest) {
-    Line l1(Point(3, 4), Point(5, 6)),
-         l2(Point(-8, 5), Point(-8, 9)),
-         l3(Point(0, 4), Point(-sqrt(3), 5)),
-         l4(Point(1.0, -9.0), Point(-1.0, -7.0));
-    EXPECT_DOUBLE_EQ(angle(l1, l2), PI/4);
-    EXPECT_DOUBLE_EQ(angle(l3, l1), PI*5/12);
-    EXPECT_DOUBLE_EQ(angle(l3, l2), PI/3);
-    EXPECT_DOUBLE_EQ(angle(l1, l4), PI/2);
-    EXPECT_DOUBLE_EQ(angle(l4, l2), PI/4);
-    EXPECT_DOUBLE_EQ(angle(l3, l4), PI/12);
+    Line l1(Point(3, 4), Point(5, 6)), l2(Point(-8, 5), Point(-8, 9)),
+        l3(Point(0, 4), Point(-sqrt(3), 5)),
+        l4(Point(1.0, -9.0), Point(-1.0, -7.0));
+    EXPECT_DOUBLE_EQ(angle(l1, l2), PI / 4);
+    EXPECT_DOUBLE_EQ(angle(l3, l1), PI * 5 / 12);
+    EXPECT_DOUBLE_EQ(angle(l3, l2), PI / 3);
+    EXPECT_DOUBLE_EQ(angle(l1, l4), PI / 2);
+    EXPECT_DOUBLE_EQ(angle(l4, l2), PI / 4);
+    EXPECT_DOUBLE_EQ(angle(l3, l4), PI / 12);
 }
 
 TEST(lineTest, slopeTest) {
     Line l1(Point(3.0, 4.0), Point(-3.0, 7.0)),
-         l2(Point(2.0, -1.0), Point(5.0, 6.0)),
-         l3(Point(5.0, 3.0), Point(5.0, 2.0)),
-         l4(Point(3.0, -1.0), Point(5.0, -1.0));
+        l2(Point(2.0, -1.0), Point(5.0, 6.0)),
+        l3(Point(5.0, 3.0), Point(5.0, 2.0)),
+        l4(Point(3.0, -1.0), Point(5.0, -1.0));
     EXPECT_DOUBLE_EQ(l1.slope(), -0.5);
-    EXPECT_DOUBLE_EQ(l2.slope(), 7.0/3.0);
+    EXPECT_DOUBLE_EQ(l2.slope(), 7.0 / 3.0);
     EXPECT_DOUBLE_EQ(l3.slope(), INFINITY);
     EXPECT_DOUBLE_EQ(l4.slope(), 0.0);
 }
 
 TEST(lineTest, horizontalTest) {
     Line l1(Point(3.0, -1.0), Point(5.0, -1.0)),
-         l2(Point(5.0, 3.0), Point(5.0, 2.0)),
-         l3(Point(3.0, 4.0), Point(-3.0, 7.0));
+        l2(Point(5.0, 3.0), Point(5.0, 2.0)),
+        l3(Point(3.0, 4.0), Point(-3.0, 7.0));
     EXPECT_TRUE(l1.is_horizontal());
     EXPECT_FALSE(l2.is_horizontal());
     EXPECT_FALSE(l3.is_horizontal());
@@ -115,8 +113,8 @@ TEST(lineTest, horizontalTest) {
 
 TEST(lineTest, verticalTest) {
     Line l1(Point(5.0, 3.0), Point(5.0, 2.0)),
-         l2(Point(3.0, -1.0), Point(5.0, -1.0)),
-         l3(Point(3.0, 4.0), Point(-3.0, 7.0));
+        l2(Point(3.0, -1.0), Point(5.0, -1.0)),
+        l3(Point(3.0, 4.0), Point(-3.0, 7.0));
     EXPECT_TRUE(l1.is_vertical());
     EXPECT_FALSE(l2.is_vertical());
     EXPECT_FALSE(l3.is_vertical());
@@ -136,8 +134,7 @@ TEST(lineTest, translationTest) {
 
 TEST(lineTest, moveXTest) {
     Line l;
-    Line l1 = l.moveX(4.0),
-         l2 = l.moveX(0.0);
+    Line l1 = l.moveX(4.0), l2 = l.moveX(0.0);
     EXPECT_TRUE(l1.on_object(Point(6.0, -1.0)));
     EXPECT_TRUE(l1.on_object(Point(3.0, 2.0)));
     EXPECT_FALSE(l1.on_object(Point(6.1, -1.0)));
@@ -148,8 +145,7 @@ TEST(lineTest, moveXTest) {
 
 TEST(lineTest, moveYTest) {
     Line l;
-    Line l1 = l.moveY(-2.0),
-         l2 = l.moveY(0.0);
+    Line l1 = l.moveY(-2.0), l2 = l.moveY(0.0);
     EXPECT_TRUE(l1.on_object(Point(-2.0, 1.0)));
     EXPECT_TRUE(l1.on_object(Point(0.0, -1.0)));
     EXPECT_FALSE(l1.on_object(Point(6.0, -7.1)));
@@ -159,12 +155,8 @@ TEST(lineTest, moveYTest) {
 }
 
 TEST(lineTest, LineAndPointDistanceTest) {
-    Line l1(0, 3.0, 6.0),
-         l2(-4.0, 0.0, 4.0),
-         l3(4.0, 3.0, 6.0);
-    Point p1(8.0, 0.0),
-          p2(0.0, -5.0),
-          p3(-3.0, 2.0);
+    Line  l1(0, 3.0, 6.0), l2(-4.0, 0.0, 4.0), l3(4.0, 3.0, 6.0);
+    Point p1(8.0, 0.0), p2(0.0, -5.0), p3(-3.0, 2.0);
     EXPECT_DOUBLE_EQ(distance(l1, p1), 2.0);
     EXPECT_DOUBLE_EQ(distance(l1, p2), 3.0);
     EXPECT_DOUBLE_EQ(distance(l1, p3), 4.0);
@@ -177,7 +169,7 @@ TEST(lineTest, LineAndPointDistanceTest) {
 }
 
 TEST(lineTest, PointAndLineDistanceTest) {
-    Line l1(5.0, 12.0, -6.0);
+    Line  l1(5.0, 12.0, -6.0);
     Point p1(0.0, 0.0);
-    EXPECT_DOUBLE_EQ(distance(p1, l1), 6.0/13.0);
+    EXPECT_DOUBLE_EQ(distance(p1, l1), 6.0 / 13.0);
 }

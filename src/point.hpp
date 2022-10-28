@@ -15,7 +15,7 @@ namespace geometry {
 
 // 点を管理するクラス
 class Point {
-  public:
+   public:
     using value_type = Real;
     constexpr Point() : _x(0), _y(0) {
     }
@@ -106,7 +106,7 @@ class Point {
         return Point(rho * std::cos(theta), rho * std::sin(theta));
     }
 
-  private:
+   private:
     value_type _x, _y;
 };
 
@@ -202,7 +202,10 @@ Real cross(const Point &p, const Point &q) {
 }
 
 // 点 p と点 q を a : b に内分する点
-Point internal_div(const Point &p, const Point &q, const Real &a, const Real &b) {
+Point internal_div(const Point &p,
+                   const Point &q,
+                   const Real & a,
+                   const Real & b) {
     assert(0 <= a);
     assert(0 <= b);
     assert(0 <= a + b);
@@ -215,7 +218,10 @@ Point mid_point(const Point &p, const Point &q) {
 }
 
 // 点 p と点 q を a : b に外分する点
-Point external_div(const Point &p, const Point &q, const Real &a, const Real &b) {
+Point external_div(const Point &p,
+                   const Point &q,
+                   const Real & a,
+                   const Real & b) {
     assert(0 <= a);
     assert(0 <= b);
     assert(!eq(a, b));
@@ -226,8 +232,7 @@ Real co_circle_internal1(Point p, Point q, Point r, const Point &s) {
     p -= s;
     q -= s;
     r -= s;
-    return cross(p, q) * norm(r) + 
-           cross(q, r) * norm(p) +
+    return cross(p, q) * norm(r) + cross(q, r) * norm(p) +
            cross(r, p) * norm(q);
 }
 
@@ -235,14 +240,13 @@ Real co_circle_internal2(Point p, Point q, Point r, const Point &s) {
     p -= s;
     q -= s;
     r -= s;
-    return cross(p, q) + 
-           cross(q, r) +
-           cross(r, p);
+    return cross(p, q) + cross(q, r) + cross(r, p);
 }
 
 // 3点 p, q, r を含むような最小の円は点 s を内部に含むか（境界を含まない）
 bool in_circle(const Point &p, const Point &q, const Point &r, const Point &s) {
-    return sgn(co_circle_internal1(p, q, r, s)) == sgn(co_circle_internal2(p, q, r, s));
+    return sgn(co_circle_internal1(p, q, r, s)) ==
+           sgn(co_circle_internal2(p, q, r, s));
 }
 
 // 3点 p, q, r を含むような最小の円は点 s を円周上に含むか
@@ -251,16 +255,20 @@ bool on_circle(const Point &p, const Point &q, const Point &r, const Point &s) {
 }
 
 // 3点 p, q, r を含むような最小の円の外部に点 s は位置するか
-bool out_circle(const Point &p, const Point &q, const Point &r, const Point &s) {
-    return sgn(co_circle_internal1(p, q, r, s)) == sgn(co_circle_internal2(p, q, r, s)) * -1;
+bool out_circle(const Point &p,
+                const Point &q,
+                const Point &r,
+                const Point &s) {
+    return sgn(co_circle_internal1(p, q, r, s)) ==
+           sgn(co_circle_internal2(p, q, r, s)) * -1;
 }
 
 enum ClockWise {
-    ONLINE_FRONT = -2,
-    CLOCKWISE = -1,
-    ON_SEGMENT = 0,
+    ONLINE_FRONT      = -2,
+    CLOCKWISE         = -1,
+    ON_SEGMENT        = 0,
     COUNTER_CLOCKWISE = +1,
-    ONLINE_BACK = +2,
+    ONLINE_BACK       = +2,
 };
 
 /**
@@ -269,10 +277,10 @@ enum ClockWise {
  */
 ClockWise ccw(const Point &a, Point b, Point c) {
     b -= a, c -= a;
-    if(sgn(cross(b, c)) > 0) return COUNTER_CLOCKWISE;
-    if(sgn(cross(b, c)) < 0) return CLOCKWISE;
-    if(sgn(dot(b, c)) < 0)   return ONLINE_BACK;
-    if(le(abs(c), abs(b))) return ON_SEGMENT;
+    if (sgn(cross(b, c)) > 0) return COUNTER_CLOCKWISE;
+    if (sgn(cross(b, c)) < 0) return CLOCKWISE;
+    if (sgn(dot(b, c)) < 0) return ONLINE_BACK;
+    if (le(abs(c), abs(b))) return ON_SEGMENT;
     return ONLINE_FRONT;
 }
 
@@ -282,8 +290,8 @@ bool colinear(const Point &p, const Point &q, const Point &r) {
     return state != COUNTER_CLOCKWISE && state != CLOCKWISE;
 }
 
-} // namespace geometry
+}  // namespace geometry
 
-} // namespace sapphre15
+}  // namespace sapphre15
 
-#endif // GEOMETRY_POINT_HPP_
+#endif  // GEOMETRY_POINT_HPP_

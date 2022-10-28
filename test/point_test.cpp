@@ -1,6 +1,6 @@
-#include <point.hpp>
-
 #include <gtest/gtest.h>
+
+#include <point.hpp>
 
 using namespace sapphre15::geometry;
 
@@ -97,12 +97,12 @@ TEST(pointTest, productAssignTest1) {
 
 TEST(pointTest, productAssignTest2) {
     Point p(3.0, PI);
-    Real q = -5.7;
+    Real  q = -5.7;
     p *= q;
     EXPECT_TRUE(p == Point(-17.1, -5.7 * PI));
     EXPECT_TRUE(q == -5.7);
     Point r(3.0, 0.0);
-    Real s = 110.0;
+    Real  s = 110.0;
     r *= s;
     EXPECT_TRUE(r == Point(330.0, 0.0));
     EXPECT_TRUE(s == 110.0);
@@ -121,12 +121,12 @@ TEST(pointTest, divisionAssignTest1) {
 
 TEST(pointTest, divisionAssignTest2) {
     Point p(3.0, 2.0);
-    Real q = -5.7;
+    Real  q = -5.7;
     p /= q;
     EXPECT_TRUE(p == Point(3.0 / -5.7, 2.0 / -5.7));
     EXPECT_TRUE(q == -5.7);
     Point r(3.0, 0.0);
-    Real s = 110.0;
+    Real  s = 110.0;
     r /= s;
     EXPECT_TRUE(r == Point(3.0 / 110.0, 0.0));
     EXPECT_TRUE(s == 110.0);
@@ -184,20 +184,20 @@ TEST(pointTest, ydistTest) {
 TEST(pointTest, polarTest1) {
     EXPECT_TRUE(Point::polar(0).x() == 1.0);
     EXPECT_TRUE(Point::polar(0).y() == 0.0);
-    EXPECT_TRUE(Point::polar(PI/2) == Point(0.0, 1.0));
-    EXPECT_TRUE(Point::polar(PI)   == Point(-1.0, 0.0));
-    EXPECT_DOUBLE_EQ(Point::polar(-3*PI/4).x(), -0.70710678118654724);
-    EXPECT_DOUBLE_EQ(Point::polar(-3*PI/4).y(), -0.70710678118654724);
-    EXPECT_DOUBLE_EQ(Point::polar(5*PI/6).x(), -0.866025403784438646);
-    EXPECT_DOUBLE_EQ(Point::polar(5*PI/6).y(), 0.5);
+    EXPECT_TRUE(Point::polar(PI / 2) == Point(0.0, 1.0));
+    EXPECT_TRUE(Point::polar(PI) == Point(-1.0, 0.0));
+    EXPECT_DOUBLE_EQ(Point::polar(-3 * PI / 4).x(), -0.70710678118654724);
+    EXPECT_DOUBLE_EQ(Point::polar(-3 * PI / 4).y(), -0.70710678118654724);
+    EXPECT_DOUBLE_EQ(Point::polar(5 * PI / 6).x(), -0.866025403784438646);
+    EXPECT_DOUBLE_EQ(Point::polar(5 * PI / 6).y(), 0.5);
 }
 
 TEST(pointTest, polarTest2) {
     EXPECT_TRUE(Point::polar(0, 10.0).x() == 10.0);
     EXPECT_TRUE(Point::polar(0, 10.0).y() == 0.0);
-    EXPECT_TRUE(Point::polar(-PI/2, 10.0) == Point(0.0, -10.0));
-    EXPECT_DOUBLE_EQ(Point::polar(5*PI/6, 10).x(), -8.66025403784438646);
-    EXPECT_DOUBLE_EQ(Point::polar(5*PI/6, 10).y(), 5);
+    EXPECT_TRUE(Point::polar(-PI / 2, 10.0) == Point(0.0, -10.0));
+    EXPECT_DOUBLE_EQ(Point::polar(5 * PI / 6, 10).x(), -8.66025403784438646);
+    EXPECT_DOUBLE_EQ(Point::polar(5 * PI / 6, 10).y(), 5);
 }
 
 TEST(pointTest, absTest) {
@@ -209,7 +209,7 @@ TEST(pointTest, absTest) {
 
 TEST(pointTest, argTest) {
     EXPECT_NEAR(arg(Point(-1.9, -1e-15)), -PI, 1e-13);
-    EXPECT_NEAR(arg(Point(4, -4)), -PI/4, 1e-13);
+    EXPECT_NEAR(arg(Point(4, -4)), -PI / 4, 1e-13);
     EXPECT_NEAR(arg(Point(-1, 1.7320508075688772935274)), PI * 2 / 3, 1e-13);
 }
 
@@ -243,10 +243,8 @@ TEST(pointTest, corsssTest) {
 
 TEST(pointTest, internalDivTest) {
     Point p(3.0, 2.0), q(0.0, -5.0), r(-6.0, -8.0);
-    Point x = internal_div(p, q, 3, 5),
-          y = internal_div(q, r, 2, 1),
-          z = internal_div(r, p, 0, 1),
-          w = internal_div(r, p, 1, 0);
+    Point x = internal_div(p, q, 3, 5), y = internal_div(q, r, 2, 1),
+          z = internal_div(r, p, 0, 1), w = internal_div(r, p, 1, 0);
     EXPECT_DOUBLE_EQ(x.x(), 1.875);
     EXPECT_DOUBLE_EQ(y.x(), -4.00);
     EXPECT_DOUBLE_EQ(z.x(), -6.00);
@@ -259,9 +257,7 @@ TEST(pointTest, internalDivTest) {
 
 TEST(pointTest, midPointTest) {
     Point p(3.0, 2.0), q(0.0, -5.0), r(-6.0, -8.0);
-    Point x = mid_point(p, q),
-          y = mid_point(q, r),
-          z = mid_point(r, p);
+    Point x = mid_point(p, q), y = mid_point(q, r), z = mid_point(r, p);
     EXPECT_DOUBLE_EQ(x.x(), 1.50);
     EXPECT_DOUBLE_EQ(y.x(), -3.0);
     EXPECT_DOUBLE_EQ(z.x(), -1.5);
@@ -272,10 +268,8 @@ TEST(pointTest, midPointTest) {
 
 TEST(pointTest, externalDivTest) {
     Point p(3.0, 2.0), q(0.0, -5.0), r(-6.0, -8.0);
-    Point x = external_div(p, q, 3, 5),
-          y = external_div(q, r, 2, 1),
-          z = external_div(r, p, 0, 1),
-          w = external_div(r, p, 1, 0);
+    Point x = external_div(p, q, 3, 5), y = external_div(q, r, 2, 1),
+          z = external_div(r, p, 0, 1), w = external_div(r, p, 1, 0);
     EXPECT_DOUBLE_EQ(x.x(), 7.5);
     EXPECT_DOUBLE_EQ(y.x(), -12);
     EXPECT_DOUBLE_EQ(z.x(), -6);
@@ -283,14 +277,12 @@ TEST(pointTest, externalDivTest) {
     EXPECT_DOUBLE_EQ(x.y(), 12.5);
     EXPECT_DOUBLE_EQ(y.y(), -11);
     EXPECT_DOUBLE_EQ(z.y(), -8);
-    EXPECT_DOUBLE_EQ(w.y(),  2);
+    EXPECT_DOUBLE_EQ(w.y(), 2);
 }
 
 TEST(pointTest, inCircleTest) {
-    Point a(4.0, 3.0),  b(3.0, -4.0),
-          c(0.0, -5.0), d(0.0,  0.0),
-          e(5.0, -1.0), f(1.0, -3.0),
-          g(2.0, -4.0);
+    Point a(4.0, 3.0), b(3.0, -4.0), c(0.0, -5.0), d(0.0, 0.0), e(5.0, -1.0),
+        f(1.0, -3.0), g(2.0, -4.0);
     EXPECT_TRUE(in_circle(a, b, c, f));
     EXPECT_TRUE(in_circle(a, c, b, g));
     EXPECT_TRUE(in_circle(d, a, b, e));
@@ -301,9 +293,8 @@ TEST(pointTest, inCircleTest) {
 }
 
 TEST(pointTest, onCircleTest) {
-    Point a(4.0, 3.0),  b(3.0, -4.0),
-          c(0.0, -5.0), d(-4.0, -3.0),
-          e(0.0, 0.0),  f(7.0, 0.0);
+    Point a(4.0, 3.0), b(3.0, -4.0), c(0.0, -5.0), d(-4.0, -3.0), e(0.0, 0.0),
+        f(7.0, 0.0);
     EXPECT_TRUE(on_circle(a, b, c, d));
     EXPECT_TRUE(on_circle(b, a, b, c));
     EXPECT_TRUE(on_circle(d, c, b, a));
@@ -318,10 +309,8 @@ TEST(pointTest, onCircleTest) {
 }
 
 TEST(pointTest, outCircleTest) {
-    Point a(4.0, 3.0),  b(3.0, -4.0),
-          c(0.0, -5.0), d(0.0,  0.0),
-          e(5.0, -1.0), f(1.0, -3.0),
-          g(2.0, -4.0);
+    Point a(4.0, 3.0), b(3.0, -4.0), c(0.0, -5.0), d(0.0, 0.0), e(5.0, -1.0),
+        f(1.0, -3.0), g(2.0, -4.0);
     EXPECT_TRUE(out_circle(c, b, a, e));
     EXPECT_TRUE(out_circle(b, d, a, g));
     EXPECT_FALSE(out_circle(a, d, b, f));

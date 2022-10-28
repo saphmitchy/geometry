@@ -8,9 +8,9 @@
 #include <vector>
 
 #include "config.hpp"
+#include "intersection.hpp"
 #include "point.hpp"
 #include "segment.hpp"
-#include "intersection.hpp"
 
 namespace sapphre15 {
 
@@ -19,38 +19,38 @@ namespace geometry {
 class PolygonIterator;
 
 class Polygon {
-    public:
+   public:
     /**
      * @brief Create a Polygon object whose vertex is
      * the points contained point_list.
      * The order is modified if the order is clockwise.
-     * @param points_list 
+     * @param points_list
      */
-    Polygon(const std::vector<Point> &points_list)
-    : _num(points_list.size()) {
+    Polygon(const std::vector<Point>& points_list) : _num(points_list.size()) {
         assert(3 <= _num);
         _points.reset(new Point[_num]);
-        std::copy(std::begin(points_list),
-                  std::end(points_list),
-                  _points.get());
+        std::copy(
+            std::begin(points_list), std::end(points_list), _points.get());
         // the order is checked.
-        if(sgn(area()) < 0) {
+        if (sgn(area()) < 0) {
             std::reverse(_points.get(), _points.get() + _num);
         }
     }
 
     Polygon(std::initializer_list<Point> init)
-    : Polygon(std::vector<Point>(std::begin(init), std::end(init))) {}
+        : Polygon(std::vector<Point>(std::begin(init), std::end(init))) {
+    }
 
     /**
      * @brief calculate the area of the polygon.
-     * veified with https://onlinejudge.u-aizu.ac.jp/courses/library/4/CGL/3/CGL_3_A
-     * @return Real 
+     * veified with
+     * https://onlinejudge.u-aizu.ac.jp/courses/library/4/CGL/3/CGL_3_A
+     * @return Real
      */
     Real area() const {
-        Real val = cross(_points[_num-1], _points[0]);
-        for(size_t i = 0; i < _num - 1; i++) {
-            val += cross(_points[i], _points[i+1]);
+        Real val = cross(_points[_num - 1], _points[0]);
+        for (size_t i = 0; i < _num - 1; i++) {
+            val += cross(_points[i], _points[i + 1]);
         }
         return val / 2.0;
     }
@@ -58,19 +58,19 @@ class Polygon {
     /**
      * @brief Check if the point is inside the polygon.
      * If the points is on the polygon, the result is unspecified.
-     * veified with https://onlinejudge.u-aizu.ac.jp/courses/library/4/CGL/3/CGL_3_C
+     * veified with
+     * https://onlinejudge.u-aizu.ac.jp/courses/library/4/CGL/3/CGL_3_C
      * @param p Point
      */
-    bool inside(const Point &p) {
-        bool ret = false;
-        Point _a, _b = _points[_num-1];
-        for(size_t i = 0; i < _num; i++) {
+    bool inside(const Point& p) {
+        bool  ret = false;
+        Point _a, _b = _points[_num - 1];
+        for (size_t i = 0; i < _num; i++) {
             _a = std::move(_b);
             _b = _points[i];
-            if(_a.y() < _b.y()) std::swap(_a, _b);
-            if(!le(_a.y(), p.y()) &&
-                le(_b.y(), p.y())  &&
-               ccw(_a, p, _b) == COUNTER_CLOCKWISE) {
+            if (_a.y() < _b.y()) std::swap(_a, _b);
+            if (!le(_a.y(), p.y()) && le(_b.y(), p.y()) &&
+                ccw(_a, p, _b) == COUNTER_CLOCKWISE) {
                 ret = ret ^ true;
             }
             _b = _points[i];
@@ -81,19 +81,19 @@ class Polygon {
      * @brief Check if the point is on edges of the polygon.
      * @param p
      */
-    bool on_object(const Point &p) {
-        for(size_t i = 1; i < _num; i++) {
-            if(ccw(_points[i-1], _points[i], p) == ON_SEGMENT) {
+    bool on_object(const Point& p) {
+        for (size_t i = 1; i < _num; i++) {
+            if (ccw(_points[i - 1], _points[i], p) == ON_SEGMENT) {
                 return true;
             }
         }
-        return ccw(_points[0], _points[_num-1], p) == ON_SEGMENT;
+        return ccw(_points[0], _points[_num - 1], p) == ON_SEGMENT;
     }
     /**
      * @brief Check if the point is outside the polygon.
      * @param p Point
      */
-    bool outside(const Point &p) {
+    bool outside(const Point& p) {
         return !inside(p);
     }
     /**
@@ -102,10 +102,10 @@ class Polygon {
      */
     bool is_simple() {
         Point ip = _points[_num - 1];
-        for(size_t i = 0; i < _num; i++) {
-            for(size_t j = i+1; j < (i == 0 ? _num - 2 : _num - 1); j++) {
-                if(intersection(Segment(_points[i], ip),
-                                Segment(_points[j], _points[j+1]))) {
+        for (size_t i = 0; i < _num; i++) {
+            for (size_t j = i + 1; j < (i == 0 ? _num - 2 : _num - 1); j++) {
+                if (intersection(Segment(_points[i], ip),
+                                 Segment(_points[j], _points[j + 1]))) {
                     return false;
                 }
             }
@@ -115,16 +115,17 @@ class Polygon {
     }
     /**
      * @brief Check if the polygon is convex.
-     * veryfied with https://onlinejudge.u-aizu.ac.jp/courses/library/4/CGL/3/CGL_3_B
+     * veryfied with
+     * https://onlinejudge.u-aizu.ac.jp/courses/library/4/CGL/3/CGL_3_B
      */
     bool is_convex() {
-        if(ccw(_points[_num-1], _points[0], _points[1])
-                == CLOCKWISE) return false;
-        if(ccw(_points[_num-2], _points[_num-1], _points[0])
-                == CLOCKWISE) return false;
-        for(size_t i = 2; i < _num; i++) {
-            if(ccw(_points[i-2], _points[i-1], _points[i])
-                    == CLOCKWISE) return false;
+        if (ccw(_points[_num - 1], _points[0], _points[1]) == CLOCKWISE)
+            return false;
+        if (ccw(_points[_num - 2], _points[_num - 1], _points[0]) == CLOCKWISE)
+            return false;
+        for (size_t i = 2; i < _num; i++) {
+            if (ccw(_points[i - 2], _points[i - 1], _points[i]) == CLOCKWISE)
+                return false;
         }
         return true;
     }
@@ -137,14 +138,14 @@ class Polygon {
     size_t size() const noexcept {
         return _num;
     }
-    
+
     PolygonIterator begin() const;
 
     PolygonIterator end() const;
 
     friend PolygonIterator;
 
-    private:
+   private:
     // number of vertex
     const size_t _num;
     // list of vertexes
@@ -153,7 +154,7 @@ class Polygon {
 };
 
 class PolygonIterator {
-    public:
+   public:
     using size_type         = std::size_t;
     using diff_type         = std::ptrdiff_t;
     using value_type        = Point;
@@ -171,7 +172,7 @@ class PolygonIterator {
 
     PolygonIterator& operator++() {
         ++_idx;
-        if(_idx == _length) _idx = 0;
+        if (_idx == _length) _idx = 0;
         assert(check_idx());
         return *this;
     }
@@ -183,7 +184,7 @@ class PolygonIterator {
     }
 
     PolygonIterator& operator--() {
-        if(_idx == 0) _idx = _length;
+        if (_idx == 0) _idx = _length;
         --_idx;
         assert(check_idx());
         return *this;
@@ -196,14 +197,14 @@ class PolygonIterator {
     }
 
     PolygonIterator& operator+=(diff_type _n) {
-        if(_n < 0) _n = _n % _length + _length;
+        if (_n < 0) _n = _n % _length + _length;
         _idx += _n;
-        if(_length <= _idx) _idx -= _length;
+        if (_length <= _idx) _idx -= _length;
         assert(check_idx());
         return *this;
     }
 
-    PolygonIterator  operator+(diff_type _n) const {
+    PolygonIterator operator+(diff_type _n) const {
         auto ret = *this;
         ret += _n;
         return ret;
@@ -213,22 +214,22 @@ class PolygonIterator {
         return operator+=(-_n);
     }
 
-    PolygonIterator  operator-(diff_type _n) const {
+    PolygonIterator operator-(diff_type _n) const {
         auto ret = *this;
         ret -= _n;
         return ret;
     }
 
-    size_type operator- (const PolygonIterator &i) const {
+    size_type operator-(const PolygonIterator& i) const {
         auto ret = _idx - i._idx;
         return ret < 0 ? ret + _length : ret;
     }
 
-    bool operator==(const PolygonIterator &i) const noexcept {
+    bool operator==(const PolygonIterator& i) const noexcept {
         return _ptr == i._ptr;
     }
 
-    bool operator!=(const PolygonIterator &i) const noexcept {
+    bool operator!=(const PolygonIterator& i) const noexcept {
         return !(*this == i);
     }
 
@@ -238,15 +239,13 @@ class PolygonIterator {
 
     friend Polygon;
 
-    private:
-    size_type _idx;
+   private:
+    size_type       _idx;
     const size_type _length;
-    pointer _ptr;
+    pointer         _ptr;
 
-    PolygonIterator(const Polygon *_parent, size_type _n = 0)
-    : _idx(_n),
-      _length(_parent->_num),
-      _ptr(_parent->_points) {
+    PolygonIterator(const Polygon* _parent, size_type _n = 0)
+        : _idx(_n), _length(_parent->_num), _ptr(_parent->_points) {
         assert(check_idx());
     }
 
@@ -256,25 +255,25 @@ class PolygonIterator {
 };
 
 PolygonIterator operator+(PolygonIterator::diff_type _n,
-                          const PolygonIterator& _p) {
+                          const PolygonIterator&     _p) {
     return _p + _n;
 }
 
 PolygonIterator operator-(PolygonIterator::diff_type _n,
-                          const PolygonIterator& _p) {
+                          const PolygonIterator&     _p) {
     return _p - _n;
 }
 
 PolygonIterator Polygon::begin() const {
-        return PolygonIterator(this);
+    return PolygonIterator(this);
 }
 
 PolygonIterator Polygon::end() const {
-        return PolygonIterator(this);
+    return PolygonIterator(this);
 }
 
-} // namespace geometry
+}  // namespace geometry
 
-} // namespace sapphre15
+}  // namespace sapphre15
 
-#endif // GEOMETRY_POLYGON_HPP_
+#endif  // GEOMETRY_POLYGON_HPP_

@@ -2,22 +2,25 @@
 #define GEOMETRY_RAY_HPP_
 
 #include "config.hpp"
-#include "point.hpp"
 #include "line.hpp"
+#include "point.hpp"
 
 namespace sapphre15 {
 
 namespace geometry {
 
 class Ray : public internal::LineBase {
-    public:
-    Ray() : internal::LineBase() {}
+   public:
+    Ray() : internal::LineBase() {
+    }
     // 点 start を始点とし end を結ぶ半直線
     Ray(const Point &_start, const Point &_to)
-    : internal::LineBase(_start, _to) {}
+        : internal::LineBase(_start, _to) {
+    }
     // 点 start を始点とする傾き theta の半直線
     Ray(const Point &_start, const Real theta)
-    : internal::LineBase(_start, _start + Point::polar(theta)) {}
+        : internal::LineBase(_start, _start + Point::polar(theta)) {
+    }
     // 半直線の始点
     Point source() const {
         return _a;
@@ -48,7 +51,7 @@ class Ray : public internal::LineBase {
     }
     // 始点から終点方向から反時計回り回転させた方向に dist だけ平行移動
     Ray moveV(const Real &dist) const {
-        return translation(geometry::rotate(direction(), PI/2) * dist);
+        return translation(geometry::rotate(direction(), PI / 2) * dist);
     }
     // 始点を中心として theta だけ反時計回りに回転
     Ray rotate(const Real &theta) const {
@@ -56,8 +59,8 @@ class Ray : public internal::LineBase {
     }
 };
 
-} // namespace geometry
+}  // namespace geometry
 
-} // namespace sapphre15
+}  // namespace sapphre15
 
-#endif // GEOMETRY_RAY_HPP_
+#endif  // GEOMETRY_RAY_HPP_

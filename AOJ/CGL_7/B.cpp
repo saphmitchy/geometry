@@ -1,8 +1,8 @@
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 
-#include "point.hpp"
 #include "circle.hpp"
+#include "point.hpp"
 
 using namespace std;
 using namespace sapphre15::geometry;
@@ -12,7 +12,6 @@ int main() {
     cin >> p1 >> p2 >> p3;
     Circle c = incircle(p1, p2, p3);
     cout << setprecision(15) << fixed;
-    cout << c.center().x() << " " 
-         << c.center().y() << " "
-         << c.radius() << endl;
+    cout << c.center().x() << " " << c.center().y() << " " << c.radius()
+         << endl;
 }

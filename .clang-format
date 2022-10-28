@@ -1,0 +1,16 @@
+---
+BasedOnStyle: Google
+IndentWidth: 4
+---
+Language: Cpp
+AlignConsecutiveAssignments: true
+AllowShortFunctionsOnASingleLine: None
+AlignAfterOpenBracket: Align
+BinPackArguments: false
+BinPackParameters: false
+AlignConsecutiveDeclarations: true
+AllowAllArgumentsOnNextLine: true
+AllowAllParametersOfDeclarationOnNextLine: true
+SpaceAfterTemplateKeyword: false
+...
+

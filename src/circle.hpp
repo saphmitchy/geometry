@@ -12,24 +12,25 @@ namespace sapphre15 {
 namespace geometry {
 
 class Circle {
-    public:
-    Circle() : _center(), _radius(1.0) {}
+   public:
+    Circle() : _center(), _radius(1.0) {
+    }
     // 3点 c を中心として半径 r の円
-    Circle(const Point &c, const Real &r)
-    : _center(c), _radius(r) {
+    Circle(const Point &c, const Real &r) : _center(c), _radius(r) {
         assert(r >= 0);
     }
     // 3点 c を中心として点 a を通る円
-    Circle(const Point &c, const Point &a)
-    : _center(c), _radius(abs(c - a)) {}
+    Circle(const Point &c, const Point &a) : _center(c), _radius(abs(c - a)) {
+    }
     // 3点 a, b, c を通る円
-    // verified with https://onlinejudge.u-aizu.ac.jp/courses/library/4/CGL/7/CGL_7_C
+    // verified with
+    // https://onlinejudge.u-aizu.ac.jp/courses/library/4/CGL/7/CGL_7_C
     Circle(const Point &a, Point b, Point c) {
         b -= a;
         c -= a;
         _center = Point(norm(b) * c.y() - norm(c) * b.y(),
-                        norm(c) * b.x() - norm(b) * c.x())
-                  / cross(b, c) / 2.0;
+                        norm(c) * b.x() - norm(b) * c.x()) /
+                  cross(b, c) / 2.0;
         _center += a;
         _radius = distance(_center, a);
     }
@@ -55,30 +56,29 @@ class Circle {
         return eq(_radius, distance(_center, p));
     }
 
-    public:
+   public:
     Point _center;
-    Real _radius;
+    Real  _radius;
 };
 
 /**
  * @brief return incircle of the three points.
- * verified with https://onlinejudge.u-aizu.ac.jp/courses/library/4/CGL/7/CGL_7_B
+ * verified with
+ * https://onlinejudge.u-aizu.ac.jp/courses/library/4/CGL/7/CGL_7_B
  * @param a Point
  * @param b Point
  * @param c Point
- * @return Circle 
+ * @return Circle
  */
 Circle incircle(const Point &a, const Point &b, const Point &c) {
-    Real ab = distance(a, b),
-         bc = distance(b, c),
-         ca = distance(c, a),
+    Real ab = distance(a, b), bc = distance(b, c), ca = distance(c, a),
          _s = std::abs(cross(a - c, b - c));
     return Circle((a * bc + b * ca + c * ab) / (ab + bc + ca),
-                   _s / (ab + bc + ca));
+                  _s / (ab + bc + ca));
 }
 
-} // namespace geometry
+}  // namespace geometry
 
-} // namespace sapphre15
+}  // namespace sapphre15
 
-#endif // GEOMETRY_CIRCLE_HPP_
+#endif  // GEOMETRY_CIRCLE_HPP_

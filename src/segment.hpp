@@ -5,22 +5,25 @@
 #include <utility>
 
 #include "config.hpp"
-#include "point.hpp"
 #include "line.hpp"
+#include "point.hpp"
 
 namespace sapphre15 {
 
 namespace geometry {
 
 class Segment : public internal::LineBase {
-    public:
-    Segment() : internal::LineBase() {}
+   public:
+    Segment() : internal::LineBase() {
+    }
     // 点 start, end を結ぶ線分
     Segment(const Point &_start, const Point &_end)
-    : internal::LineBase(_start, _end) {}
+        : internal::LineBase(_start, _end) {
+    }
     // 点 start を始点とする長さ length 、傾き theta の線分
     Segment(const Point &_start, const Real _theta, const Real _length)
-    : internal::LineBase(_start, _start + Point::polar(_theta, _length)) {}
+        : internal::LineBase(_start, _start + Point::polar(_theta, _length)) {
+    }
 
     // 始点を返す
     Point start() const {
@@ -79,7 +82,7 @@ class Segment : public internal::LineBase {
     }
     // 始点から終点方向から反時計回り回転させた方向に dist だけ平行移動
     Segment moveV(const Real &dist) const {
-        return translation(geometry::rotate(direction(), PI/2) * dist);
+        return translation(geometry::rotate(direction(), PI / 2) * dist);
     }
     // 始点を中心として theta だけ反時計回りに回転
     Segment rotate(const Real &theta) const {
@@ -87,8 +90,8 @@ class Segment : public internal::LineBase {
     }
 };
 
-} // namespace geometry
+}  // namespace geometry
 
-} // namespace sapphre15
+}  // namespace sapphre15
 
-#endif // GEOMETRY_SEGMENT_HPP_
+#endif  // GEOMETRY_SEGMENT_HPP_
