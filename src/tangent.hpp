@@ -25,16 +25,15 @@ std::vector<Point> tangent(const Circle &c, const Point &p) {
     } else if (c.inside(p)) {
         return {};
     } else {
-        auto q   = p - c.center();
-        auto nrm = norm(q);
-        auto r   = c.radius();
-        auto dst = std::sqrt(nrm - c.radius() * c.radius());
-        return {Point((q.x() * r + q.y() * dst) * r / nrm,
-                      (q.y() * r - q.x() * dst) * r / nrm) +
-                    c.center(),
-                Point((q.x() * r - q.y() * dst) * r / nrm,
-                      (q.y() * r + q.x() * dst) * r / nrm) +
-                    c.center()};
+        auto q      = p - c.center();
+        auto nrm    = norm(q);
+        auto r      = c.radius();
+        auto dst    = std::sqrt(-fma(c.radius(), c.radius(), -nrm));
+        auto center = c.center();
+        return {Point(fma((fma(q.x(), r, q.y() * dst)), r / nrm, center.x()),
+                      fma((fma(q.y(), r, -q.x() * dst)), r / nrm, center.y())),
+                Point(fma((fma(q.x(), r, -q.y() * dst)), r / nrm, center.x()),
+                      fma((fma(q.y(), r, q.x() * dst)), r / nrm, center.y()))};
     }
 }
 

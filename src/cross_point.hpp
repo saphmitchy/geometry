@@ -119,14 +119,16 @@ std::vector<Point> cross_point(const Circle &c1, const Circle &c2) {
     Point _m = (c1.center() + c2.center()) / 2,
           // a = _d.x(), _b = d.y()
         _d      = (c1.center() - c2.center());
-    Real r_diff = (c2.radius() * c2.radius() - c1.radius() * c1.radius()) / 2,
-         _k = r_diff / norm(_d), _s = (_d.x() + _d.y()) * _k,
-         _t = (_d.x() - _d.y()) * _k;
+    Real r_diff = fma(c2.radius(), c2.radius(), -c1.radius() * c1.radius()) / 2,
+         _k = r_diff / norm(_d), _s = (_d.x() + _d.y()), _t = (_d.x() - _d.y());
     if (eq(r_diff, 0.0)) {
         // if vertical bisector is implemented, we will replace.
         return cross_point(c1, Line(_m, _m + rotate(_d, PI / 2)));
     } else {
-        return cross_point(c1, Line(Point(_s, -_t) + _m, Point(_t, _s) + _m));
+        return cross_point(
+            c1,
+            Line(Point(fma(_s, _k, _m.x()), fma(-_t, _k, _m.y())),
+                 Point(fma(_t, _k, _m.x()), fma(_s, _k, _m.y()))));
     }
 }
 

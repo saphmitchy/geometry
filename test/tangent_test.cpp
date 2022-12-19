@@ -16,8 +16,8 @@ TEST(tangentTest, CircleAndPoint) {
     EXPECT_DOUBLE_EQ(v11[1].x(), 4.0);
     EXPECT_DOUBLE_EQ(v11[1].y(), 3.0);
     EXPECT_EQ(v12.size(), 2);
-    // EXPECT_DOUBLE_EQ(v12[0].x(), -44.0/89.0);
-    // EXPECT_DOUBLE_EQ(v12[0].y(), 17.0/89.0);
+    EXPECT_DOUBLE_EQ(v12[0].x(), -44.0/89.0);
+    EXPECT_DOUBLE_EQ(v12[0].y(), 17.0/89.0);
     EXPECT_DOUBLE_EQ(v12[1].x(), 4.0);
     EXPECT_DOUBLE_EQ(v12[1].y(), -7.0);
     EXPECT_EQ(v13.size(), 1);

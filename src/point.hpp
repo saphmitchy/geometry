@@ -119,7 +119,7 @@ Point::value_type arg(const Point &p) {
 }
 
 Point::value_type norm(const Point &p) {
-    return p.x() * p.x() + p.y() * p.y();
+    return fma(p.x(), p.x(), p.y() * p.y());
 }
 
 constexpr Point operator+(const Point &lhs) {
@@ -193,19 +193,19 @@ Real ydist(const Point &p, const Point &q) {
 
 // ベクトル p, q の内積を計算する
 Real dot(const Point &p, const Point &q) {
-    return p.x() * q.x() + p.y() * q.y();
+    return fma(p.x(), q.x(), p.y() * q.y());
 }
 
 // ベクトル p, q の外積を計算する
 Real cross(const Point &p, const Point &q) {
-    return p.x() * q.y() - p.y() * q.x();
+    return fma(p.x(), q.y(), -p.y() * q.x());
 }
 
 // 点 p と点 q を a : b に内分する点
 Point internal_div(const Point &p,
                    const Point &q,
-                   const Real & a,
-                   const Real & b) {
+                   const Real  &a,
+                   const Real  &b) {
     assert(0 <= a);
     assert(0 <= b);
     assert(0 <= a + b);
@@ -220,8 +220,8 @@ Point mid_point(const Point &p, const Point &q) {
 // 点 p と点 q を a : b に外分する点
 Point external_div(const Point &p,
                    const Point &q,
-                   const Real & a,
-                   const Real & b) {
+                   const Real  &a,
+                   const Real  &b) {
     assert(0 <= a);
     assert(0 <= b);
     assert(!eq(a, b));
